@@ -118,20 +118,6 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 		return pl;
 	}
 
-	@Override
-	public boolean eliminar(Planta pl) {
-		try {
-
-			String sql = "DELETE FROM plantas WHERE codigo=?";
-			ps = conex.prepareStatement(sql);
-
-			ps.setString(1, pl.getCodigo());
-
-		} catch (SQLException e) {
-			System.out.println("Error al borrar en planta" + e.getMessage());
-			e.printStackTrace();
-		}
-		return false;
-	}
+	
 
 }
