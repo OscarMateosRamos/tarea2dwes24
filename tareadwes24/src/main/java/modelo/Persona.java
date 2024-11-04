@@ -2,7 +2,7 @@ package modelo;
 
 public class Persona {
 	private long id;
-	private String nombre;
+	private String admin;
 	private String email;
 	private long id_Credencial;
 
@@ -10,50 +10,71 @@ public class Persona {
 
 	}
 
-	public Persona(long id, String nombre, String email, long id_Credencial) {
+	
+
+	public Persona(long id, String admin, String email, long id_Credencial) {
 		super();
 		this.id = id;
-		this.nombre = nombre;
+		this.admin = admin;
 		this.email = email;
 		this.id_Credencial = id_Credencial;
 	}
+
+
 
 	public long getId() {
 		return id;
 	}
 
+
+
 	public void setId(long id) {
 		this.id = id;
 	}
 
-	public String getNombre() {
-		return nombre;
+
+
+	public String getAdmin() {
+		return admin;
 	}
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+
+
+	public void setAdmin(String admin) {
+		this.admin = admin;
 	}
+
+
 
 	public String getEmail() {
 		return email;
 	}
 
+
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+
 
 	public long getId_Credencial() {
 		return id_Credencial;
 	}
 
+
+
 	public void setId_Credencial(long id_Credencial) {
 		this.id_Credencial = id_Credencial;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "Persona [id=" + id + ", nombre=" + nombre + ", email=" + email + ", id_Credencial=" + id_Credencial
-				+ "]";
+		return "Persona [id=" + id + ", admin=" + admin + ", email=" + email + ", id_Credencial=" + id_Credencial + "]";
 	}
+
+
 
 }
