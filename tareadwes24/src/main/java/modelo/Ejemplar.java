@@ -3,15 +3,17 @@ package modelo;
 public class Ejemplar {
 	private long id;
 	private String nombre;
+	private String idPlanta;
 
 	public Ejemplar() {
 
 	}
 
-	public Ejemplar(long id, String nombre) {
+	public Ejemplar(long id, String nombre, String idPlanta) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
+		this.idPlanta = idPlanta;
 	}
 
 	public long getId() {
@@ -30,9 +32,17 @@ public class Ejemplar {
 		this.nombre = nombre;
 	}
 
+	public String getIdPlanta() {
+		return idPlanta;
+	}
+
+	public void setIdPlanta(String idPlanta) {
+		this.idPlanta = idPlanta;
+	}
+
 	@Override
 	public String toString() {
-		return "Ejemplar [id=" + id + ", nombre=" + nombre + "]";
+		return "Ejemplar [id=" + id + ", nombre=" + nombre + ", idPlanta=" + idPlanta + "]";
 	}
 
 }
