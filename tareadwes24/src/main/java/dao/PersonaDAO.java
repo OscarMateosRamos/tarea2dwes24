@@ -14,7 +14,6 @@ import utils.ConexBD;
 
 public class PersonaDAO implements OperacionesCrud<Persona> {
 
-	
 	Connection conex;
 	private PreparedStatement ps;
 	private ResultSet rs;
@@ -31,11 +30,11 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 
 		try {
 
-			String sql = "INSERT INTO persona(id,nombre,email,id_Credencial) values (?,?,?,?)";
+			String sql = "INSERT INTO persona(id,admin,email,id_Credencial) values (?,?,?,?)";
 			ps = conex.prepareStatement(sql);
 
 			ps.setLong(1, p.getId());
-			ps.setString(2, p.getNombre());
+			ps.setString(2, p.getAdmin());
 			ps.setString(3, p.getEmail());
 			ps.setLong(3, p.getId_Credencial());
 
@@ -68,11 +67,11 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 	public boolean modificar(Persona p) {
 		try {
 
-			String sql = "UPDATE persona SET email = ?, nombre = ?,id_Credencial=? WHERE id = ?";
+			String sql = "UPDATE persona SET email = ?, admin = ?,id_Credencial=? WHERE id = ?";
 			PreparedStatement ps = conex.prepareStatement(sql);
 
 			ps.setString(1, p.getEmail());
-			ps.setString(2, p.getNombre());
+			ps.setString(2, p.getAdmin());
 			ps.setLong(3, p.getId_Credencial());
 			ps.setLong(4, p.getId());
 
@@ -122,10 +121,10 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 
 			while (rs.next()) {
 				long id = rs.getLong("id");
-				String nombre = rs.getString("nombre");
+				String admin = rs.getString("admin");
 				String email = rs.getString("email");
 				long id_Credencial = rs.getLong("id_Credencial");
-				p = new Persona(id, nombre, email, id_Credencial);
+				p = new Persona(id, admin, email, id_Credencial);
 			}
 		} catch (SQLException e) {
 			System.out.println("Se ha producido una SQLException: " + e.getMessage());
