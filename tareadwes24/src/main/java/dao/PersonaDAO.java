@@ -46,22 +46,7 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 		return 0;
 	}
 
-	@Override
-	public boolean eliminar(Persona p) {
-		try {
-
-			String sql = "DELETE FROM personas WHERE id=?";
-			ps = conex.prepareStatement(sql);
-
-			ps.setLong(1, p.getId());
-
-		} catch (SQLException e) {
-			System.out.println("Error al borrar en persona" + e.getMessage());
-			e.printStackTrace();
-		}
-		return false;
-
-	}
+	
 
 	@Override
 	public boolean modificar(Persona p) {
@@ -97,7 +82,7 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Persona persona = new Persona(rs.getLong("id"), rs.getString("nombre"), rs.getString("email"),
+				Persona persona = new Persona(rs.getLong("id"), rs.getString("admin"), rs.getString("email"),
 						rs.getLong("id_Credencial"));
 				personas.add(persona);
 			}
