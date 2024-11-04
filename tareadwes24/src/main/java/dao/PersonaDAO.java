@@ -89,7 +89,7 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 			conex.close();
 
 		} catch (SQLException e) {
-			System.out.println("Error al ver las plantas" + e.getMessage());
+			System.out.println("Error al ver las personas" + e.getMessage());
 		}
 
 		return personas;
