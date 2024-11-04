@@ -66,7 +66,7 @@ CREATE TABLE `mensajes` (
 
 CREATE TABLE `personas` (
   `id` int(10) NOT NULL,
-  `nombre` varchar(40) NOT NULL,
+  `admin` varchar(40) NOT NULL,
   `email` varchar(40) NOT NULL,
   `idCredencial` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
