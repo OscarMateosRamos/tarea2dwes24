@@ -30,11 +30,11 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 
 		try {
 
-			String sql = "INSERT INTO persona(id,admin,email,id_Credencial) values (?,?,?,?)";
+			String sql = "INSERT INTO persona(id,nombre,email,id_Credencial) values (?,?,?,?)";
 			ps = conex.prepareStatement(sql);
 
 			ps.setLong(1, p.getId());
-			ps.setString(2, p.getAdmin());
+			ps.setString(2, p.getNombre());
 			ps.setString(3, p.getEmail());
 			ps.setLong(3, p.getId_Credencial());
 
@@ -46,8 +46,6 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 		return 0;
 	}
 
-	
-
 	@Override
 	public boolean modificar(Persona p) {
 		try {
@@ -56,7 +54,7 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 			PreparedStatement ps = conex.prepareStatement(sql);
 
 			ps.setString(1, p.getEmail());
-			ps.setString(2, p.getAdmin());
+			ps.setString(2, p.getNombre());
 			ps.setLong(3, p.getId_Credencial());
 			ps.setLong(4, p.getId());
 
@@ -120,6 +118,22 @@ public class PersonaDAO implements OperacionesCrud<Persona> {
 		}
 
 		return p;
+	}
+
+	@Override
+	public boolean eliminar(Persona p) {
+		try {
+
+			String sql = "DELETE FROM plantas WHERE codigo = ?";
+			PreparedStatement ps = conex.prepareStatement(sql);
+
+			ps.setLong(1, p.getId());
+
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar en persona" + e.getMessage());
+		}
+		return false;
 	}
 
 }
