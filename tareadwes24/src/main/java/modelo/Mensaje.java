@@ -55,6 +55,7 @@ public class Mensaje {
 		this.idEjemplar = idEjemplar;
 	}
 
+	
 	public long getIdPersona() {
 		return idPersona;
 	}
