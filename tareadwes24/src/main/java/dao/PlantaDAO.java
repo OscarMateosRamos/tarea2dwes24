@@ -63,7 +63,6 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 
 	}
 
-	
 	@Override
 	public Collection<Planta> verTodas() {
 		String sql = "SELECT * FROM plantas";
@@ -118,6 +117,21 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 		return pl;
 	}
 
-	
+	@Override
+	public boolean eliminar(Planta pl) {
+		try {
+
+			String sql = "DELETE FROM plantas WHERE codigo = ?";
+			PreparedStatement ps = conex.prepareStatement(sql);
+
+			ps.setString(1, pl.getCodigo());
+
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			System.out.println("Error al eliminar en planta" + e.getMessage());
+		}
+		return false;
+
+	}
 
 }
