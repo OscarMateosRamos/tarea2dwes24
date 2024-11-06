@@ -9,8 +9,15 @@ import java.util.Properties;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
+import dao.CredencialesDAO;
+import dao.EjemplarDAO;
+import dao.MensajeDAO;
+import dao.PersonaDAO;
+import dao.PlantaDAO;
+
 public class ConexBD {
 	private static Connection con;
+	private static ConexBD f;
 
 	
 	public static Connection realizaConexion() {
@@ -19,7 +26,7 @@ public class ConexBD {
 		FileInputStream fis;
 
 		try {
-			fis = new FileInputStream("src/main/resources/db.properties");
+			fis = new FileInputStream("src/main/resources/db.properties.txt");
 
 			prop.load(fis);
 
@@ -39,4 +46,30 @@ public class ConexBD {
 		return con;
 	}
 
+	
+	public static ConexBD getInstance() {
+		if (f == null)
+			f = new ConexBD();
+		return f;
+	}
+	
+	public PlantaDAO getPlantaDAO() {
+		return new PlantaDAO(con);
+	}
+
+	public EjemplarDAO getEjemplarDAO() {
+		return new EjemplarDAO(con);
+	}
+
+	public PersonaDAO getPersonaDAO() {
+		return new PersonaDAO(con);
+	}
+
+	public MensajeDAO getMensajeDAO() {
+		return new MensajeDAO(con);
+	}
+	
+	public CredencialesDAO getCredencialesDAO() {
+		return new CredencialesDAO(con);
+	}
 }
