@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.Collection;
 
 import modelo.Credenciales;
-import utils.ConexBD;
+import modelo.Planta;
 
 public class CredencialesDAO implements OperacionesCrud<Credenciales> {
 
@@ -56,10 +56,58 @@ public class CredencialesDAO implements OperacionesCrud<Credenciales> {
 		return null;
 	}
 
+	public Credenciales buscarPorUsuario(String username) {
+		String sql = "SELECT * FROM  credenciales WHERE usuario = ?";
+		Credenciales c = null;
+
+		try {
+
+			PreparedStatement ps = conex.prepareStatement(sql);
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				long id = rs.getLong("id");
+				String usuario = rs.getString("usuario");
+				String password = rs.getString("password");
+				c = new Credenciales(id, usuario, password);
+			}
+		} catch (SQLException e) {
+			System.out.println("error al consultar por usuario " + e.getMessage());
+
+		}
+		return c;
+
+	}
+
+	public boolean validarCredenciales(String usuario, String password) {
+		String sql = "SELECT COUNT(*) AS 'cantidad' FROM credenciales WHERE usuario =? AND password=? ";
+		try (PreparedStatement ps = conex.prepareStatement(sql)) {
+			ps.setString(1, usuario);
+			ps.setString(2, password);
+			ResultSet rs = ps.executeQuery();
+
+			if (rs.getInt("cantidad") == 1) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			System.out.println("error al validar credenciales " + e.getMessage() + e.getStackTrace());
+		}
+		return false;
+
+	}
+
 	@Override
 	public Credenciales buscarPorID(long id) {
-		// TODO Auto-generated method stub
+
 		return null;
+	}
+
+	@Override
+	public boolean eliminar(Credenciales elemento) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }
