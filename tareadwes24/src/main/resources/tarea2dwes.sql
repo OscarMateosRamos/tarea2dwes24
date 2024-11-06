@@ -55,7 +55,9 @@ CREATE TABLE `ejemplares` (
 CREATE TABLE `mensajes` (
   `id` int(10) NOT NULL ,
   `fechahora` datetime NOT NULL,
-  `mensaje` varchar(250) NOT NULL
+  `mensaje` varchar(250) NOT NULL,
+  `idEjemplar` int(10) NOT NULL,
+  `idPersona` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -85,15 +87,9 @@ CREATE TABLE `plantas` (
 
 -- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `seguimiento`
---
 
-CREATE TABLE `seguimiento` (
-  `id_PK_ejemplar` int(10) NOT NULL,
-  `id_PK_persona` int(10) NOT NULL,
-  `id_PK_mensaje` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 
 --
 -- Índices para tablas volcadas
@@ -116,7 +112,12 @@ ALTER TABLE `ejemplares`
 -- Indices de la tabla `mensajes`
 --
 ALTER TABLE `mensajes`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_ejemplar` (`idEjemplar`),
+  ADD KEY `fk_persona` (`idPersona`);
+  
+
+
 --
 -- Indices de la tabla `personas`
 --
@@ -130,14 +131,6 @@ ALTER TABLE `personas`
 ALTER TABLE `plantas`
   ADD PRIMARY KEY (`codigo`);
 
---
--- Indices de la tabla `seguimiento`
---
-ALTER TABLE `seguimiento`
-  ADD PRIMARY KEY (`id_PK_ejemplar`,`id_PK_persona`,`id_PK_mensaje`),
-  ADD KEY `Ejemplar_id_FK` (`id_PK_ejemplar`),
-  ADD KEY `Persona_id_FK` (`id_PK_persona`),
-  ADD KEY `Mensaje_id_FK` (`id_PK_mensaje`);
 
 --
 -- Restricciones para tablas volcadas
@@ -163,13 +156,16 @@ ALTER TABLE `personas`
 --
 
 
-  
--- Filtros para la tabla `seguimiento`
+-- Filtros para la tabla `mensajes`
 --
-ALTER TABLE `seguimiento`
-  ADD CONSTRAINT `Ejemplar_id_FK` FOREIGN KEY (`id_PK_ejemplar`) REFERENCES `ejemplares` (`id`),
-  ADD CONSTRAINT `Mensaje_id_FK` FOREIGN KEY (`id_PK_mensaje`) REFERENCES `mensajes` (`id`),
-  ADD CONSTRAINT `Persona_id_FK` FOREIGN KEY (`id_PK_persona`) REFERENCES `personas` (`id`);
+ALTER TABLE `mensajes`
+  ADD CONSTRAINT `fk_ejemplar` FOREIGN KEY (`idEjemplar`) REFERENCES `ejemplares` (`id`),
+   ADD CONSTRAINT `fk_persona` FOREIGN KEY (`idPersona`) REFERENCES `personas` (`id`);
+--
+
+
+  
+
 
 
 -- AUTO_INCREMENT de la tabla `credenciales`
