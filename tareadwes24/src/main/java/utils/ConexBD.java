@@ -19,8 +19,6 @@ public class ConexBD {
 	private static Connection con;
 	private static ConexBD f;
 
-	
-	
 	public static Connection realizaConexion() {
 		Properties prop = new Properties();
 		MysqlDataSource m = new MysqlDataSource();
@@ -46,8 +44,7 @@ public class ConexBD {
 		}
 		return con;
 	}
-	
-	
+
 	public static void cerrarConexion() {
 		try {
 			if (con != null && !con.isClosed()) {
@@ -59,13 +56,12 @@ public class ConexBD {
 		}
 	}
 
-	
 	public static ConexBD getInstance() {
 		if (f == null)
 			f = new ConexBD();
 		return f;
 	}
-	
+
 	public PlantaDAO getPlantaDAO() {
 		return new PlantaDAO(con);
 	}
@@ -81,7 +77,7 @@ public class ConexBD {
 	public MensajeDAO getMensajeDAO() {
 		return new MensajeDAO(con);
 	}
-	
+
 	public CredencialesDAO getCredencialesDAO() {
 		return new CredencialesDAO(con);
 	}
