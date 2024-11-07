@@ -46,6 +46,18 @@ public class ConexBD {
 		}
 		return con;
 	}
+	
+	
+	public static void cerrarConexion() {
+		try {
+			if (con != null && !con.isClosed()) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
 
 	
 	public static ConexBD getInstance() {
