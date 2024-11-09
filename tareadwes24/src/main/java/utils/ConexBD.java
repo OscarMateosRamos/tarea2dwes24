@@ -16,11 +16,7 @@ import dao.PersonaDAO;
 import dao.PlantaDAO;
 
 public class ConexBD {
-<<<<<<< HEAD
 	private static Connection con = ConexBD.realizaConexion();
-=======
-	private static Connection con;
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	private static ConexBD f;
 
 	public static Connection realizaConexion() {

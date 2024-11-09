@@ -8,28 +8,15 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
-<<<<<<< HEAD
 import modelo.Mensaje;
 import utils.ConexBD;
 
 public class MensajeDAO {
-=======
-
-import modelo.Mensaje;
-
-import utils.ConexBD;
-
-public class MensajeDAO implements OperacionesCrud<Mensaje> {
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 
 	Connection conex;
 	private PreparedStatement ps;
 	private ResultSet rs;
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	public MensajeDAO(Connection conex) {
 
 		if (this.conex == null) {
@@ -37,11 +24,9 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 		}
 	}
 
-<<<<<<< HEAD
-
-	
 	public long insertar(Mensaje m) {
-	
+
+		
 		try {
 
 			String sql = "INSERT INTO mensajes(fechahora,mensaje,idEjemplar,idPersona) values (?,?,?,?)";
@@ -51,21 +36,6 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 			ps.setString(2, m.getMensaje());
 			ps.setLong(3, m.getIdEjemplar());
 			ps.setLong(4, m.getIdPersona());
-=======
-	@Override
-	public long insertar(Mensaje m) {
-
-		try {
-
-			String sql = "INSERT INTO mensajes(id,fechahora,mensaje,idEjemplar,idPersona) values (?,?,?,?,?)";
-			ps = conex.prepareStatement(sql);
-
-			ps.setLong(1, m.getId());
-			ps.setTimestamp(2, Timestamp.valueOf(m.getFechahora()));
-			ps.setString(3, m.getMensaje());
-			ps.setLong(4, m.getIdEjemplar());
-			ps.setLong(5, m.getIdPersona());
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 
 			return ps.executeUpdate();
 
@@ -76,22 +46,6 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 		return 0;
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
-	public boolean eliminar(Mensaje elemento) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean modificar(Mensaje elemento) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	public Collection<Mensaje> verTodas() {
 		String sql = "SELECT * FROM mensajes";
 		ArrayList<Mensaje> mensajes = new ArrayList<>();
@@ -105,15 +59,9 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-<<<<<<< HEAD
 				Mensaje m = new Mensaje(rs.getLong("id"), rs.getTimestamp("fechahora").toLocalDateTime(),
 						rs.getString("mensaje"), rs.getLong("idEjemplar"), rs.getLong("idPersona"));
 				mensajes.add(m);
-=======
-				Mensaje mensaje = new Mensaje(rs.getLong("id"), rs.getTimestamp("fechahora").toLocalDateTime(),
-						rs.getString("mensaje"),rs.getLong("idEjemplar"),rs.getLong("idPersona"));
-				mensajes.add(mensaje);
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 			}
 			ConexBD.cerrarConexion();
 
@@ -125,7 +73,6 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 
 	}
 
-<<<<<<< HEAD
 	public ArrayList<Mensaje> buscarPorIdPersona(long identificador) {
 		String sql = "SELECT * FROM mensajes WHERE idPersona = ?";
 		ArrayList<Mensaje> mensajes = new ArrayList();
@@ -184,12 +131,6 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 
 		return mensajes;
 
-=======
-	@Override
-	public Mensaje buscarPorID(long id) {
-		// TODO Auto-generated method stub
-		return null;
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	}
 
 }

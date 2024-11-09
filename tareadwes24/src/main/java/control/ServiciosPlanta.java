@@ -10,6 +10,7 @@ public class ServiciosPlanta {
 	private ConexBD con;
 	private PlantaDAO plantaDAO;
 
+	
 	public ServiciosPlanta() {
 		con = ConexBD.getInstance();
 		plantaDAO = (PlantaDAO) con.getPlantaDAO();
@@ -30,7 +31,6 @@ public class ServiciosPlanta {
 
 	}
 
-<<<<<<< HEAD
 	public Planta buscarPorCodigo(String id) {
 		return plantaDAO.buscarPorCodigo(id);
 
@@ -39,10 +39,6 @@ public class ServiciosPlanta {
 	
 	public boolean existePorCodigo(String id) {
 		return plantaDAO.existePorCodigo(id);
-=======
-	public Planta buscarIdPlanta(long id) {
-		return plantaDAO.buscarPorID(id);
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 
 	}
 
@@ -57,22 +53,15 @@ public class ServiciosPlanta {
 	}
 
 	public boolean validarPlanta(Planta pl) {
-<<<<<<< HEAD
 
 		if (pl.getCodigo().isEmpty()) {
 
-=======
-		boolean salida = false;
-
-		if (pl.getCodigo().isEmpty()) {
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 			return false;
 		}
 
 		if (pl.getCodigo().length() < 3 || pl.getCodigo().length() > 20) {
 			return false;
 		}
-<<<<<<< HEAD
 
 		if (plantaDAO.buscarPorCodigo(pl.getCodigo()) != null) {
 			System.out.println("Ya existe el codigo");
@@ -87,8 +76,6 @@ public class ServiciosPlanta {
 			return false;
 		}
 
-=======
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 		return true;
 
 	}

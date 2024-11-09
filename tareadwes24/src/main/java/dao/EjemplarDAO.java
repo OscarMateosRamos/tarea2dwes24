@@ -13,28 +13,19 @@ import modelo.Mensaje;
 import modelo.Planta;
 import utils.ConexBD;
 
-<<<<<<< HEAD
 public class EjemplarDAO {
-=======
-public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 
 	Connection conex;
 	ResultSet rs;
 	Statement st;
 	PreparedStatement ps;
 
-<<<<<<< HEAD
-	
-=======
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	public EjemplarDAO(Connection conex) {
 		if (this.conex == null) {
 			this.conex = conex;
 		}
 	}
 
-<<<<<<< HEAD
 	public long insertar(Ejemplar ej) {
 		String sql = "INSERT INTO ejemplares (nombre, idPlanta) VALUES (?, ?)";
 		long id = 0;
@@ -71,28 +62,6 @@ public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
 	}
 	
 
-=======
-	@Override
-	public long insertar(Ejemplar ej) {
-		try {
-
-			String sql = "INSERT INTO ejemplar(id,nombre,idPlanta) values (?,?,?)";
-			ps = conex.prepareStatement(sql);
-
-			ps.setLong(1, ej.getId());
-			ps.setString(2, ej.getNombre());
-			ps.setString(3, ej.getIdPlanta());
-
-			return ps.executeUpdate();
-
-		} catch (SQLException e) {
-			System.out.println("Error al insertar en ejemplar" + e.getMessage());
-		}
-		return 0;
-	}
-
-	@Override
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	public boolean modificar(Ejemplar ej) {
 		try {
 
@@ -108,10 +77,6 @@ public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
 		return false;
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	public Collection<Ejemplar> verTodas() {
 		String sql = "SELECT * FROM ejemplares";
 		ArrayList<Ejemplar> ejemplares = new ArrayList<>();
@@ -140,10 +105,6 @@ public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
 		return ejemplares;
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	public Ejemplar buscarPorID(long identificador) {
 
 		String sql = "SELECT * FROM ejemplares WHERE codigo = ?";
@@ -168,10 +129,6 @@ public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
 
 	}
 
-<<<<<<< HEAD
-=======
-	@Override
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	public boolean eliminar(Ejemplar ej) {
 		try {
 

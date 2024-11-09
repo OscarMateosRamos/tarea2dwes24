@@ -24,23 +24,15 @@ CREATE DATABASE IF NOT EXISTS `tarea2dwes` DEFAULT CHARACTER SET utf8mb4 COLLATE
 USE `tarea2dwes`;
 -- --------------------------------------------------------
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 --
 -- Estructura de tabla para la tabla `credenciales`
 --
 
 CREATE TABLE `credenciales` (
-<<<<<<< HEAD
   `id` int(11) NOT NULL,
   `usuario` varchar(40) UNIQUE NOT NULL,
-=======
-  `id` int(10) NOT NULL,
-  `usuario` varchar(40) NOT NULL,
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
   `password` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -51,11 +43,7 @@ CREATE TABLE `credenciales` (
 --
 
 CREATE TABLE `ejemplares` (
-<<<<<<< HEAD
   `id` int(10)  NOT NULL,
-=======
-  `id` int(10) NOT NULL,
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
   `nombre` varchar(30) NOT NULL,
   `idPlanta` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -82,13 +70,8 @@ CREATE TABLE `mensajes` (
 
 CREATE TABLE `personas` (
   `id` int(10) NOT NULL,
-<<<<<<< HEAD
   `nombre` varchar(40) NOT NULL,
   `email` varchar(40) UNIQUE NOT NULL,
-=======
-  `admin` varchar(40) NOT NULL,
-  `email` varchar(40) NOT NULL,
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
   `idCredencial` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -142,10 +125,6 @@ ALTER TABLE `mensajes`
 --
 ALTER TABLE `personas`
   ADD PRIMARY KEY (`id`),
-<<<<<<< HEAD
-=======
-  ADD UNIQUE KEY `email` (`email`),
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
   ADD KEY `fk_credenciales` (`idCredencial`);
 --
 -- Indices de la tabla `planta`
@@ -186,23 +165,13 @@ ALTER TABLE `mensajes`
 --
 
 
-<<<<<<< HEAD
   --
-=======
-  
-
-
-
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 -- AUTO_INCREMENT de la tabla `credenciales`
 --
 ALTER TABLE `credenciales`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 --
 -- AUTO_INCREMENT de la tabla `ejemplares`
 --
@@ -221,11 +190,8 @@ ALTER TABLE `mensajes`
 ALTER TABLE `personas`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
