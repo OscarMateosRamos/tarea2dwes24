@@ -110,6 +110,7 @@ public class CredencialesDAO {
 		return true;
 	}
 
+	
 	public boolean validarCredenciales(String usuario, String password) {
 
 		try (PreparedStatement ps = conex.prepareStatement("SELECT *  FROM credenciales   ")) {
