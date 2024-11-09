@@ -24,6 +24,7 @@ public class MensajeDAO {
 		}
 	}
 
+
 	
 	public long insertar(Mensaje m) {
 	

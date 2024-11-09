@@ -49,8 +49,6 @@ public class EjemplarDAO {
 
 	
 	
-	
-	
 	public boolean modificarNombre(long id, String nombreNuevo) {
 	    String sql = "UPDATE ejemplares SET nombre = ? WHERE id = ?";
 	    try (PreparedStatement ps = conex.prepareStatement(sql)) {
