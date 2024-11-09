@@ -26,6 +26,7 @@ public class MensajeDAO {
 
 	public long insertar(Mensaje m) {
 
+		
 		try {
 
 			String sql = "INSERT INTO mensajes(fechahora,mensaje,idEjemplar,idPersona) values (?,?,?,?)";

@@ -114,6 +114,7 @@ public class CredencialesDAO {
 
 		try (PreparedStatement ps = conex.prepareStatement("SELECT *  FROM credenciales   ")) {
 
+			
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {

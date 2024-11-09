@@ -46,6 +46,7 @@ public class EjemplarDAO {
 		}
 		return id;
 	}
+
 	
 	
 	public boolean modificarNombre(long id, String nombreNuevo) {
