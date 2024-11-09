@@ -1,6 +1,7 @@
 package vista;
 
 import java.sql.Connection;
+<<<<<<< HEAD
 import java.time.LocalDateTime;
 import java.util.Scanner;
 
@@ -12,6 +13,15 @@ import control.ServiciosPersona;
 import control.ServiciosPlanta;
 import modelo.Ejemplar;
 import modelo.Mensaje;
+=======
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import control.Controlador;
+import control.ServiciosEjemplar;
+import control.ServiciosPersona;
+import control.ServiciosPlanta;
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 import modelo.Persona;
 import modelo.Planta;
 import utils.ConexBD;
@@ -27,8 +37,11 @@ public class ViveroFachadaAdmin {
 	ServiciosEjemplar ejServ = factoriaServicios.getServiciosEjemplar();
 	ServiciosPlanta plantaServ = factoriaServicios.getServiciosPlanta();
 	ServiciosPersona personaServ = factoriaServicios.getServiciosPersona();
+<<<<<<< HEAD
 	ServiciosCredenciales credencialesServ = factoriaServicios.getServiciosCredenciales();
 	ServiciosMensaje mensajesServ = factoriaServicios.getServiciosMensaje();
+=======
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 
 	public static ViveroFachadaAdmin getPortal() {
 		if (portal == null)
@@ -44,7 +57,11 @@ public class ViveroFachadaAdmin {
 			System.out.println("1.  Gestionar Plantas.");
 			System.out.println("2.  Gestionar Personas.");
 			System.out.println("3.  Gestionar Mensajes.");
+<<<<<<< HEAD
 			System.out.println("4.  Gestionar Ejemplares.");
+=======
+			System.out.println("4.  Gestionar Personas.");
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 			System.out.println("5.  Salir");
 
 			opcion = sc.nextInt();
@@ -63,7 +80,11 @@ public class ViveroFachadaAdmin {
 				menuMensajes();
 				break;
 			case 4:
+<<<<<<< HEAD
 				menuEjemplares();
+=======
+				// menuAdminPersonas();
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 				break;
 			}
 
@@ -71,6 +92,7 @@ public class ViveroFachadaAdmin {
 
 	}
 
+<<<<<<< HEAD
 	private void menuEjemplares() {
 		int opcion = 0;
 		Scanner sc = new Scanner(System.in);
@@ -130,11 +152,14 @@ public class ViveroFachadaAdmin {
 
 	}
 
+=======
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	private void menuMensajes() {
 		int opcion = 0;
 		Scanner sc = new Scanner(System.in);
 		do {
 			System.out.println("---Gestion de Mensajes:---");
+<<<<<<< HEAD
 			System.out.println("1.  Ver Mensajes (SIN FILTRAR).");
 			System.out.println("2.  Crear un Mensaje.");
 			System.out.println("3.  Ver Mensajes (FILTRADO).");
@@ -142,11 +167,21 @@ public class ViveroFachadaAdmin {
 
 			opcion = sc.nextInt();
 			if (opcion < 1 || opcion > 4) {
+=======
+			System.out.println("1.  Ver Plantas.");
+			System.out.println("2.  Crear una Planta.");
+			System.out.println("3.  Modificar Plantas.");
+			System.out.println("4.  Salir");
+
+			opcion = sc.nextInt();
+			if (opcion < 1 || opcion > 3) {
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 				System.out.println("Opción incorrecta.");
 				continue;
 			}
 			switch (opcion) {
 			case 1:
+<<<<<<< HEAD
 				mensajesServ.vertodosMensajes();
 				break;
 			case 2:
@@ -155,6 +190,22 @@ public class ViveroFachadaAdmin {
 			case 3:
 				menuFiltrarMensaje();
 
+=======
+
+				plantaServ.verPlanta();
+
+				break;
+			case 2:
+				Planta pl = new Planta();
+				plantaServ.validarPlanta(pl);
+				plantaServ.insertarPlanta(pl);
+
+				break;
+			case 3:
+				pl = new Planta();
+				plantaServ.modificarNombrecientifico(pl.getCodigo(), pl.getNombrecientifico());
+				plantaServ.modificarNombrecomun(pl.getCodigo(), pl.getNombrecomun());
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 				break;
 
 			}
@@ -164,6 +215,10 @@ public class ViveroFachadaAdmin {
 	}
 
 	private void menuPlantas() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 		int opcion = 0;
 		Scanner sc = new Scanner(System.in);
 		do {
@@ -174,6 +229,7 @@ public class ViveroFachadaAdmin {
 			System.out.println("4.  Salir");
 
 			opcion = sc.nextInt();
+<<<<<<< HEAD
 			if (opcion < 1 || opcion > 4) {
 				System.out.println("Opción incorrecta.");
 				continue;
@@ -236,12 +292,15 @@ public class ViveroFachadaAdmin {
 			System.out.println("3.  Salir");
 
 			opcion = sc.nextInt();
+=======
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 			if (opcion < 1 || opcion > 3) {
 				System.out.println("Opción incorrecta.");
 				continue;
 			}
 			switch (opcion) {
 			case 1:
+<<<<<<< HEAD
 				System.out.println("Introduce el codigo de la planta a modificar");
 				String codigo = sc.next();
 
@@ -315,6 +374,23 @@ public class ViveroFachadaAdmin {
 
 			case 4:
 				break;
+=======
+
+				plantaServ.verPlanta();
+
+				break;
+			case 2:
+				Planta pl = new Planta();
+				plantaServ.insertarPlanta(pl);
+				plantaServ.validarPlanta(pl);
+				break;
+			case 3:
+				pl = new Planta();
+				plantaServ.modificarNombrecientifico(pl.getCodigo(), pl.getNombrecientifico());
+				plantaServ.modificarNombrecomun(pl.getCodigo(), pl.getNombrecomun());
+				break;
+
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 			}
 
 		} while (opcion != 4);
@@ -334,13 +410,18 @@ public class ViveroFachadaAdmin {
 			System.out.println("5.  Salir");
 
 			opcion = sc.nextInt();
+<<<<<<< HEAD
 			if (opcion < 1 || opcion > 5) {
+=======
+			if (opcion < 1 || opcion > 4) {
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 				System.out.println("Opción incorrecta.");
 				continue;
 			}
 			switch (opcion) {
 			case 1:
 				personaServ.verPersona();
+<<<<<<< HEAD
 				break;
 			case 2:
 				boolean personaValida = false;
@@ -377,6 +458,14 @@ public class ViveroFachadaAdmin {
 					}
 
 				}
+=======
+
+				break;
+			case 2:
+				Persona p = new Persona();
+				personaServ.validarPersona(p.getId(), p);
+				personaServ.insertarPersona(p);
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 
 				break;
 			case 3:
@@ -385,6 +474,11 @@ public class ViveroFachadaAdmin {
 				break;
 
 			case 4:
+<<<<<<< HEAD
+=======
+				p = new Persona();
+				personaServ.eliminarPersona(p);
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 
 			}
 

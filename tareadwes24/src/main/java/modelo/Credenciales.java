@@ -5,6 +5,10 @@ public class Credenciales {
 	private long id;
 	private String usuario;
 	private String password;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	public Credenciales() {
 
 	}

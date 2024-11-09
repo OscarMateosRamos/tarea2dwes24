@@ -1,9 +1,13 @@
 package control;
 
+<<<<<<< HEAD
 import java.util.Collection;
 
 import dao.MensajeDAO;
 import modelo.Mensaje;
+=======
+import dao.MensajeDAO;
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 import utils.ConexBD;
 
 public class ServiciosMensaje {
@@ -14,6 +18,7 @@ public class ServiciosMensaje {
 		con = ConexBD.getInstance();
 		mensajeDAO = (MensajeDAO) con.getMensajeDAO();
 	}
+<<<<<<< HEAD
 
 	public long insertarMensaje(Mensaje m) {
 		return mensajeDAO.insertar(m);
@@ -35,4 +40,6 @@ public class ServiciosMensaje {
 
 	}
 
+=======
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 }

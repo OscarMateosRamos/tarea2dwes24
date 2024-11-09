@@ -6,8 +6,11 @@ public class Controlador {
 	private ServiciosEjemplar servEjemplar;
 	private ServiciosPersona servPersona;
 	private ServiciosMensaje servMensaje;
+<<<<<<< HEAD
 	private ServiciosCredenciales servCredenciales;
 	;
+=======
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	
 	public static Controlador getServicios() {
 		if (servicios == null) {
@@ -21,7 +24,10 @@ public class Controlador {
 		servEjemplar = new ServiciosEjemplar();
 		servPersona = new ServiciosPersona();
 		servMensaje = new ServiciosMensaje();
+<<<<<<< HEAD
 		servCredenciales= new ServiciosCredenciales();
+=======
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 	}
 
 	public ServiciosPlanta getServiciosPlanta() {
@@ -39,8 +45,11 @@ public class Controlador {
 	public ServiciosMensaje getServiciosMensaje() {
 		return servMensaje;
 	}
+<<<<<<< HEAD
 	
 	public ServiciosCredenciales getServiciosCredenciales() {
 		return servCredenciales;
 	}
+=======
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 }

@@ -1,5 +1,9 @@
 url = jdbc:mysql://localhost:3306/tarea2dwes?serverTimezone=Europe/Madrid
+<<<<<<< HEAD
 usuario = admin
+=======
+usuario = Admin
+>>>>>>> 320b9b70541e663618ee62afd5c4a65839f5d3eb
 password = admin
 
 
