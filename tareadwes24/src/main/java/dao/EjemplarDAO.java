@@ -20,6 +20,7 @@ public class EjemplarDAO {
 	Statement st;
 	PreparedStatement ps;
 
+	
 	public EjemplarDAO(Connection conex) {
 		if (this.conex == null) {
 			this.conex = conex;

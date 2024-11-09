@@ -13,11 +13,13 @@ import utils.ConexBD;
 
 public class CredencialesDAO {
 
+	
 	Connection conex;
 	ResultSet rs;
 	Statement st;
 	PreparedStatement ps;
 
+	
 	public CredencialesDAO(Connection conex) {
 		if (this.conex == null) {
 			this.conex = conex;

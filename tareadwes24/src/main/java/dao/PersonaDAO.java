@@ -12,8 +12,6 @@ import modelo.Planta;
 import utils.ConexBD;
 
 public class PersonaDAO {
-
-
 	
 	
 	Connection conex;

@@ -12,6 +12,7 @@ import modelo.Planta;
 import utils.ConexBD;
 
 public class PlantaDAO {
+	
 	Connection conex;
 	ResultSet rs;
 	Statement st;

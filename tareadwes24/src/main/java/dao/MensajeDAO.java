@@ -17,6 +17,7 @@ public class MensajeDAO {
 	private PreparedStatement ps;
 	private ResultSet rs;
 
+	
 	public MensajeDAO(Connection conex) {
 
 		if (this.conex == null) {
