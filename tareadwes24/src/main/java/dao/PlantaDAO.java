@@ -5,13 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 
 import modelo.Planta;
 import utils.ConexBD;
 
-public class PlantaDAO implements OperacionesCrud<Planta> {
+public class PlantaDAO {
 	Connection conex;
 	ResultSet rs;
 	Statement st;
@@ -23,13 +23,9 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 		}
 	}
 
-	@Override
 	public long insertar(Planta pl) {
-
 		try {
-
-			String sql = "INSERT INTO planta(codigo,nombrecomun,nombrecientifico) values (?,?,?)";
-			ps = conex.prepareStatement(sql);
+			ps = conex.prepareStatement("INSERT INTO plantas(codigo,nombrecomun,nombrecientifico) values (?,?,?)");
 
 			ps.setString(1, pl.getCodigo());
 			ps.setString(2, pl.getNombrecomun());
@@ -38,35 +34,62 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 			return ps.executeUpdate();
 
 		} catch (SQLException e) {
-			System.out.println("Error al insertar en planta");
+			System.out.println("Error al insertar en planta" + e.getMessage());
 		}
 		return 0;
 
 	}
 
-	@Override
-	public boolean modificar(Planta pl) {
+	/*
+	 * public boolean modificar(Planta pl) { try {
+	 * 
+	 * String sql = "UPDATE planta SET nombrecomun = ?WHERE codigo = ?";
+	 * PreparedStatement ps = conex.prepareStatement(sql);
+	 * 
+	 * ps.setString(1, pl.getCodigo()); ps.setString(2, pl.getNombrecomun());
+	 * ps.setString(3, pl.getNombrecientifico());
+	 * 
+	 * return ps.executeUpdate() > 0; } catch (SQLException e) {
+	 * System.out.println("Error al modificar en planta" + e.getMessage()); } return
+	 * false;
+	 * 
+	 * }
+	 */
+
+	public boolean modificarNombrecomun(String codigo, String nombrecomun) {
 		try {
+			ps = conex.prepareStatement("UPDATE plantas SET nombrecomun = ? WHERE codigo = ?");
 
-			String sql = "UPDATE planta SET nombrecomun = ?, nombrecientifico = ? WHERE codigo = ?";
-			PreparedStatement ps = conex.prepareStatement(sql);
-
-			ps.setString(1, pl.getCodigo());
-			ps.setString(2, pl.getNombrecomun());
-			ps.setString(3, pl.getNombrecientifico());
+			ps.setString(1, nombrecomun);
+			ps.setString(2, codigo);
 
 			return ps.executeUpdate() > 0;
 		} catch (SQLException e) {
 			System.out.println("Error al modificar en planta" + e.getMessage());
 		}
-		return false;
 
+		return false;
 	}
 
-	@Override
+	public boolean modificarNombrecientifico(String codigo, String nombrecientifico) {
+		try {
+
+			ps = conex.prepareStatement("UPDATE plantas SET nombrecientifico = ? WHERE codigo = ?");
+
+			ps.setString(1, nombrecientifico);
+			ps.setString(2, codigo);
+
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			System.out.println("Error al modificar en planta" + e.getMessage());
+		}
+
+		return false;
+	}
+
 	public Collection<Planta> verTodas() {
-		String sql = "SELECT * FROM plantas";
-		HashSet<Planta> plantas = new HashSet<>();
+		String sql = "SELECT * FROM plantas ORDER BY nombrecomun";
+		ArrayList<Planta> plantas = new ArrayList<>();
 
 		try {
 			if (this.conex == null || this.conex.isClosed()) {
@@ -75,13 +98,17 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 
 			PreparedStatement ps = conex.prepareStatement(sql);
 
-			ResultSet res = ps.executeQuery();
-			while (res.next()) {
-				Planta planta = new Planta(res.getString("codigo"), res.getString("nombrecomun"),
-						res.getString("nombrecientifico"));
-				plantas.add(planta);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Planta pl = new Planta(rs.getString("codigo"), rs.getString("nombrecomun"),
+						rs.getString("nombrecientifico"));
+				plantas.add(pl);
 			}
-			conex.close();
+
+			for (Planta pl : plantas) {
+				System.out.println(pl);
+			}
+			ConexBD.cerrarConexion();
 
 		} catch (SQLException e) {
 			System.out.println("Error al ver las plantas" + e.getMessage());
@@ -90,14 +117,16 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 		return plantas;
 	}
 
-	@Override
-	public Planta buscarPorID(long id) {
-
-		String sql = "SELECT * FROM plantas WHERE codigo = ?";
+	public Planta buscarPorCodigo(String id) {
 		Planta pl = null;
+
 		try {
-			PreparedStatement ps = conex.prepareStatement(sql);
-			ps.setLong(1, id);
+			if (this.conex == null || this.conex.isClosed()) {
+				this.conex = ConexBD.realizaConexion();
+			}
+
+			ps = conex.prepareStatement("SELECT * FROM plantas WHERE codigo = ?");
+			ps.setString(1, id);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
@@ -105,6 +134,7 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 				String nombreComun = rs.getString("nombrecomun");
 				String nombreCientifico = rs.getString("nombrecientifico");
 				pl = new Planta(codigo, nombreComun, nombreCientifico);
+
 			}
 		} catch (SQLException e) {
 			System.out.println("Se ha producido una SQLException: " + e.getMessage());
@@ -117,8 +147,6 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 		return pl;
 	}
 
-	
-	@Override
 	public boolean eliminar(Planta pl) {
 		try {
 
@@ -135,5 +163,31 @@ public class PlantaDAO implements OperacionesCrud<Planta> {
 
 	}
 
-	
+	public boolean existePorCodigo(String id) {
+		Planta pl = null;
+
+		try {
+			if (this.conex == null || this.conex.isClosed()) {
+				this.conex = ConexBD.realizaConexion();
+			}
+
+			ps = conex.prepareStatement("SELECT * FROM plantas WHERE codigo = ?");
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				return true;
+
+			}
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Se ha producido una Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return false;
+	}
+
 }

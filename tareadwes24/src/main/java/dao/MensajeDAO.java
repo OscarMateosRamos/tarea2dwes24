@@ -8,12 +8,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 import modelo.Mensaje;
-
 import utils.ConexBD;
 
-public class MensajeDAO implements OperacionesCrud<Mensaje> {
+public class MensajeDAO {
 
 	Connection conex;
 	private PreparedStatement ps;
@@ -26,19 +24,17 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 		}
 	}
 
-	@Override
 	public long insertar(Mensaje m) {
 
 		try {
 
-			String sql = "INSERT INTO mensajes(id,fechahora,mensaje,idEjemplar,idPersona) values (?,?,?,?,?)";
+			String sql = "INSERT INTO mensajes(fechahora,mensaje,idEjemplar,idPersona) values (?,?,?,?)";
 			ps = conex.prepareStatement(sql);
 
-			ps.setLong(1, m.getId());
-			ps.setTimestamp(2, Timestamp.valueOf(m.getFechahora()));
-			ps.setString(3, m.getMensaje());
-			ps.setLong(4, m.getIdEjemplar());
-			ps.setLong(5, m.getIdPersona());
+			ps.setTimestamp(1, Timestamp.valueOf(m.getFechahora()));
+			ps.setString(2, m.getMensaje());
+			ps.setLong(3, m.getIdEjemplar());
+			ps.setLong(4, m.getIdPersona());
 
 			return ps.executeUpdate();
 
@@ -49,19 +45,6 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 		return 0;
 	}
 
-	@Override
-	public boolean eliminar(Mensaje elemento) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean modificar(Mensaje elemento) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public Collection<Mensaje> verTodas() {
 		String sql = "SELECT * FROM mensajes";
 		ArrayList<Mensaje> mensajes = new ArrayList<>();
@@ -75,11 +58,11 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Mensaje mensaje = new Mensaje(rs.getLong("id"), rs.getTimestamp("fechahora").toLocalDateTime(),
-						rs.getString("mensaje"),rs.getLong("idEjemplar"),rs.getLong("idPersona"));
-				mensajes.add(mensaje);
+				Mensaje m = new Mensaje(rs.getLong("id"), rs.getTimestamp("fechahora").toLocalDateTime(),
+						rs.getString("mensaje"), rs.getLong("idEjemplar"), rs.getLong("idPersona"));
+				mensajes.add(m);
 			}
-			conex.close();
+			ConexBD.cerrarConexion();
 
 		} catch (SQLException e) {
 			System.out.println("Error al ver los mensajes" + e.getMessage());
@@ -89,10 +72,64 @@ public class MensajeDAO implements OperacionesCrud<Mensaje> {
 
 	}
 
-	@Override
-	public Mensaje buscarPorID(long id) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<Mensaje> buscarPorIdPersona(long identificador) {
+		String sql = "SELECT * FROM mensajes WHERE idPersona = ?";
+		ArrayList<Mensaje> mensajes = new ArrayList();
+		try {
+			PreparedStatement ps = conex.prepareStatement(sql);
+			ps.setLong(1, identificador);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Mensaje m = new Mensaje();
+				m.setId(rs.getLong("id"));
+				m.setFechahora(rs.getTimestamp("fechahora").toLocalDateTime());
+				m.setMensaje(rs.getString("mensaje"));
+				m.setIdEjemplar(rs.getLong("idEjemplar"));
+				m.setIdPersona(rs.getLong("idPersona"));
+
+				mensajes.add(m);
+			}
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Se ha producido una Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return mensajes;
+
+	}
+
+	public ArrayList<Mensaje> buscarPorIdEjemplar(long identificador) {
+		String sql = "SELECT * FROM mensajes WHERE idEjemplar = ?";
+		ArrayList<Mensaje> mensajes = new ArrayList();
+		try {
+			PreparedStatement ps = conex.prepareStatement(sql);
+			ps.setLong(1, identificador);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Mensaje m = new Mensaje();
+				m.setId(rs.getLong("id"));
+				m.setFechahora(rs.getTimestamp("fechahora").toLocalDateTime());
+				m.setMensaje(rs.getString("mensaje"));
+				m.setIdEjemplar(rs.getLong("idEjemplar"));
+				m.setIdPersona(rs.getLong("idPersona"));
+
+				mensajes.add(m);
+			}
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Se ha producido una Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return mensajes;
+
 	}
 
 }

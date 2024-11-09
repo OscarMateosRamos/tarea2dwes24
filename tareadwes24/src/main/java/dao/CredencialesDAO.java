@@ -5,12 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import modelo.Credenciales;
-import modelo.Planta;
+import utils.ConexBD;
 
-public class CredencialesDAO implements OperacionesCrud<Credenciales> {
+public class CredencialesDAO {
 
 	Connection conex;
 	ResultSet rs;
@@ -23,17 +24,14 @@ public class CredencialesDAO implements OperacionesCrud<Credenciales> {
 		}
 	}
 
-	@Override
-	public long insertar(Credenciales c) {
+	public long insertar(String usuario, String password) {
 
 		try {
 
-			String sql = "INSERT INTO credenciales(id,usuario,password) values (?,?,?)";
-			ps = conex.prepareStatement(sql);
+			ps = conex.prepareStatement("INSERT INTO credenciales(usuario,password) values (?,?)");
 
-			ps.setLong(1, c.getId());
-			ps.setString(2, c.getUsuario());
-			ps.setString(3, c.getPassword());
+			ps.setString(1, usuario);
+			ps.setString(2, password);
 
 			return ps.executeUpdate();
 
@@ -44,51 +42,86 @@ public class CredencialesDAO implements OperacionesCrud<Credenciales> {
 
 	}
 
-	@Override
-	public boolean modificar(Credenciales elemento) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+//PARA VER ADMIN
 
-	@Override
 	public Collection<Credenciales> verTodas() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Credenciales buscarPorUsuario(String username) {
-		String sql = "SELECT * FROM  credenciales WHERE usuario = ?";
-		Credenciales c = null;
+	public boolean usuarioExistente(String usuario) {
+		String usuarioExistente = "SELECT usuario FROM crededenciales";
+		ArrayList<String> usuariosExistentes = new ArrayList<String>();
+		try {
+			ps = conex.prepareStatement(usuarioExistente);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				usuariosExistentes.add(rs.getString(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (usuarioExistente.contains(usuario)) {
+			return true;
+		} else {
+			return false;
+		}
 
+	}
+
+	public long buscarIdPorUsuario(String usuario) {
+		long id = 0;
 		try {
 
-			PreparedStatement ps = conex.prepareStatement(sql);
-			ps.setString(1, username);
-			ResultSet rs = ps.executeQuery();
-
+			ps = conex.prepareStatement("SELECT id FROM credenciales WHERE usuario=?");
+			ps.setString(1, usuario);
+			rs = ps.executeQuery();
 			while (rs.next()) {
-				long id = rs.getLong("id");
-				String usuario = rs.getString("usuario");
-				String password = rs.getString("password");
-				c = new Credenciales(id, usuario, password);
+				id = rs.getLong("id");
+
 			}
 		} catch (SQLException e) {
 			System.out.println("error al consultar por usuario " + e.getMessage());
 
 		}
-		return c;
+		return id;
 
 	}
 
-	public boolean validarCredenciales(String usuario, String password) {
-		String sql = "SELECT COUNT(*) AS 'cantidad' FROM credenciales WHERE usuario =? AND password=? ";
-		try (PreparedStatement ps = conex.prepareStatement(sql)) {
+	public boolean validarUsuario(String usuario) {
+
+		try {
+			if (this.conex == null || this.conex.isClosed()) {
+				this.conex = ConexBD.realizaConexion();
+			}
+			ps = conex.prepareStatement("SELECT COUNT(*) FROM credenciales WHERE usuario=?");
 			ps.setString(1, usuario);
-			ps.setString(2, password);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+
+				if (rs.getInt(1) != 0) {
+					return false;
+				}
+
+			}
+		} catch (SQLException e) {
+			System.out.println("error al consultar por usuario " + e.getMessage());
+		}
+		return true;
+	}
+
+	public boolean validarCredenciales(String usuario, String password) {
+
+		try (PreparedStatement ps = conex.prepareStatement("SELECT *  FROM credenciales   ")) {
+
 			ResultSet rs = ps.executeQuery();
 
-			if (rs.getInt("cantidad") == 1) {
-				return true;
+			while (rs.next()) {
+
+				if (rs.getString("usuario").equals(usuario)&& rs.getString("password").equals(password)) {
+					return true;
+				}
+
 			}
 
 		} catch (SQLException e) {
@@ -96,18 +129,6 @@ public class CredencialesDAO implements OperacionesCrud<Credenciales> {
 		}
 		return false;
 
-	}
-
-	@Override
-	public Credenciales buscarPorID(long id) {
-
-		return null;
-	}
-
-	@Override
-	public boolean eliminar(Credenciales elemento) {
-		// TODO Auto-generated method stub
-		return false;
 	}
 
 }

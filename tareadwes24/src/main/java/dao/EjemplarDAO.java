@@ -13,7 +13,7 @@ import modelo.Mensaje;
 import modelo.Planta;
 import utils.ConexBD;
 
-public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
+public class EjemplarDAO {
 
 	Connection conex;
 	ResultSet rs;
@@ -26,26 +26,41 @@ public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
 		}
 	}
 
-	@Override
 	public long insertar(Ejemplar ej) {
-		try {
+		String sql = "INSERT INTO ejemplares (nombre, idPlanta) VALUES (?, ?)";
+		long id = 0;
+		try (PreparedStatement ps = conex.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+			ps.setString(1, ej.getNombre());
+			ps.setString(2, ej.getIdPlanta());
+			int nFilas = ps.executeUpdate();
 
-			String sql = "INSERT INTO ejemplar(id,nombre,idPlanta) values (?,?,?)";
-			ps = conex.prepareStatement(sql);
-
-			ps.setLong(1, ej.getId());
-			ps.setString(2, ej.getNombre());
-			ps.setString(3, ej.getIdPlanta());
-
-			return ps.executeUpdate();
-
+			if (nFilas > 0) {
+				try (ResultSet rs = ps.getGeneratedKeys()) {
+					if (rs.next()) {
+						id = rs.getLong(1);
+					}
+				}
+			}
 		} catch (SQLException e) {
-			System.out.println("Error al insertar en ejemplar" + e.getMessage());
+			System.out.println("Error al insertar el ejemplar: " + e.getMessage());
 		}
-		return 0;
+		return id;
 	}
+	
+	
+	public boolean modificarNombre(long id, String nombreNuevo) {
+	    String sql = "UPDATE ejemplares SET nombre = ? WHERE id = ?";
+	    try (PreparedStatement ps = conex.prepareStatement(sql)) {
+	        ps.setString(1, nombreNuevo);
+	        ps.setLong(2, id);
+	        return ps.executeUpdate()>0;
+	    } catch (SQLException e) {
+	        System.out.println("Error al actualizar el nombre del ejemplar: " + e.getMessage());
+	    }
+	    return false;
+	}
+	
 
-	@Override
 	public boolean modificar(Ejemplar ej) {
 		try {
 
@@ -61,7 +76,6 @@ public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
 		return false;
 	}
 
-	@Override
 	public Collection<Ejemplar> verTodas() {
 		String sql = "SELECT * FROM ejemplares";
 		ArrayList<Ejemplar> ejemplares = new ArrayList<>();
@@ -90,7 +104,6 @@ public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
 		return ejemplares;
 	}
 
-	@Override
 	public Ejemplar buscarPorID(long identificador) {
 
 		String sql = "SELECT * FROM ejemplares WHERE codigo = ?";
@@ -115,7 +128,6 @@ public class EjemplarDAO implements OperacionesCrud<Ejemplar> {
 
 	}
 
-	@Override
 	public boolean eliminar(Ejemplar ej) {
 		try {
 
