@@ -23,6 +23,14 @@ public class Mensaje {
 		this.idPersona = idPersona;
 	}
 
+	public Mensaje(LocalDateTime fechahora, String mensaje, long idEjemplar, long idPersona) {
+		super();
+		this.fechahora = fechahora;
+		this.mensaje = mensaje;
+		this.idEjemplar = idEjemplar;
+		this.idPersona = idPersona;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -55,7 +63,6 @@ public class Mensaje {
 		this.idEjemplar = idEjemplar;
 	}
 
-	
 	public long getIdPersona() {
 		return idPersona;
 	}
