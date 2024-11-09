@@ -1,5 +1,6 @@
 package modelo;
 
+
 public class Ejemplar {
 	private long id;
 	private String nombre;

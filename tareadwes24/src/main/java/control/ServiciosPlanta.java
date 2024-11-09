@@ -20,13 +20,24 @@ public class ServiciosPlanta {
 
 	}
 
-	public boolean modificarPlanta(Planta pl) {
-		return plantaDAO.modificar(pl);
+	public boolean modificarNombrecientifico(String codigo, String nombrecientifico) {
+		return plantaDAO.modificarNombrecientifico(codigo, nombrecientifico);
 
 	}
 
-	public Planta buscarIdPlanta(long id) {
-		return plantaDAO.buscarPorID(id);
+	public boolean modificarNombrecomun(String codigo, String nombrecomun) {
+		return plantaDAO.modificarNombrecomun(codigo, nombrecomun);
+
+	}
+
+	public Planta buscarPorCodigo(String id) {
+		return plantaDAO.buscarPorCodigo(id);
+
+	}
+	
+	
+	public boolean existePorCodigo(String id) {
+		return plantaDAO.existePorCodigo(id);
 
 	}
 
@@ -41,15 +52,29 @@ public class ServiciosPlanta {
 	}
 
 	public boolean validarPlanta(Planta pl) {
-		boolean salida = false;
 
 		if (pl.getCodigo().isEmpty()) {
+
 			return false;
 		}
 
 		if (pl.getCodigo().length() < 3 || pl.getCodigo().length() > 20) {
 			return false;
 		}
+
+		if (plantaDAO.buscarPorCodigo(pl.getCodigo()) != null) {
+			System.out.println("Ya existe el codigo");
+			return false;
+		}
+
+		if (pl.getNombrecientifico().length() > 45) {
+			return false;
+		}
+
+		if (pl.getNombrecomun().length() > 40) {
+			return false;
+		}
+
 		return true;
 
 	}

@@ -24,13 +24,15 @@ CREATE DATABASE IF NOT EXISTS `tarea2dwes` DEFAULT CHARACTER SET utf8mb4 COLLATE
 USE `tarea2dwes`;
 -- --------------------------------------------------------
 
+
+
 --
 -- Estructura de tabla para la tabla `credenciales`
 --
 
 CREATE TABLE `credenciales` (
-  `id` int(10) NOT NULL,
-  `usuario` varchar(40) NOT NULL,
+  `id` int(11) NOT NULL,
+  `usuario` varchar(40) UNIQUE NOT NULL,
   `password` varchar(40) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -41,7 +43,7 @@ CREATE TABLE `credenciales` (
 --
 
 CREATE TABLE `ejemplares` (
-  `id` int(10) NOT NULL,
+  `id` int(10)  NOT NULL,
   `nombre` varchar(30) NOT NULL,
   `idPlanta` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -68,8 +70,8 @@ CREATE TABLE `mensajes` (
 
 CREATE TABLE `personas` (
   `id` int(10) NOT NULL,
-  `admin` varchar(40) NOT NULL,
-  `email` varchar(40) NOT NULL,
+  `nombre` varchar(40) NOT NULL,
+  `email` varchar(40) UNIQUE NOT NULL,
   `idCredencial` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -123,7 +125,6 @@ ALTER TABLE `mensajes`
 --
 ALTER TABLE `personas`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`),
   ADD KEY `fk_credenciales` (`idCredencial`);
 --
 -- Indices de la tabla `planta`
@@ -164,14 +165,12 @@ ALTER TABLE `mensajes`
 --
 
 
-  
-
-
-
+  --
 -- AUTO_INCREMENT de la tabla `credenciales`
 --
 ALTER TABLE `credenciales`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
 
 --
 -- AUTO_INCREMENT de la tabla `ejemplares`
@@ -190,6 +189,8 @@ ALTER TABLE `mensajes`
 --
 ALTER TABLE `personas`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+
 
 COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

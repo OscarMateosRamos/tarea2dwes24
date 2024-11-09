@@ -1,10 +1,10 @@
 package modelo;
 
+
 public class Credenciales {
 	private long id;
 	private String usuario;
 	private String password;
-
 	public Credenciales() {
 
 	}

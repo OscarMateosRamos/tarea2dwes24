@@ -16,10 +16,9 @@ import dao.PersonaDAO;
 import dao.PlantaDAO;
 
 public class ConexBD {
-	private static Connection con;
+	private static Connection con = ConexBD.realizaConexion();
 	private static ConexBD f;
 
-	
 	public static Connection realizaConexion() {
 		Properties prop = new Properties();
 		MysqlDataSource m = new MysqlDataSource();
@@ -46,13 +45,23 @@ public class ConexBD {
 		return con;
 	}
 
-	
+	public static void cerrarConexion() {
+		try {
+			if (con != null && !con.isClosed()) {
+				con.close();
+			}
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException: " + e.getMessage());
+			e.printStackTrace();
+		}
+	}
+
 	public static ConexBD getInstance() {
 		if (f == null)
 			f = new ConexBD();
 		return f;
 	}
-	
+
 	public PlantaDAO getPlantaDAO() {
 		return new PlantaDAO(con);
 	}
@@ -68,7 +77,7 @@ public class ConexBD {
 	public MensajeDAO getMensajeDAO() {
 		return new MensajeDAO(con);
 	}
-	
+
 	public CredencialesDAO getCredencialesDAO() {
 		return new CredencialesDAO(con);
 	}
