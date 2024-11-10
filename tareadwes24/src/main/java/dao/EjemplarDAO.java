@@ -7,9 +7,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Scanner;
 
+import control.Controlador;
 import modelo.Ejemplar;
-import modelo.Mensaje;
 import modelo.Planta;
 import utils.ConexBD;
 
@@ -47,20 +48,17 @@ public class EjemplarDAO {
 		return id;
 	}
 
-	
-	
 	public boolean modificarNombre(long id, String nombreNuevo) {
-	    String sql = "UPDATE ejemplares SET nombre = ? WHERE id = ?";
-	    try (PreparedStatement ps = conex.prepareStatement(sql)) {
-	        ps.setString(1, nombreNuevo);
-	        ps.setLong(2, id);
-	        return ps.executeUpdate()>0;
-	    } catch (SQLException e) {
-	        System.out.println("Error al actualizar el nombre del ejemplar: " + e.getMessage());
-	    }
-	    return false;
+		String sql = "UPDATE ejemplares SET nombre = ? WHERE id = ?";
+		try (PreparedStatement ps = conex.prepareStatement(sql)) {
+			ps.setString(1, nombreNuevo);
+			ps.setLong(2, id);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			System.out.println("Error al actualizar el nombre del ejemplar: " + e.getMessage());
+		}
+		return false;
 	}
-	
 
 	public boolean modificar(Ejemplar ej) {
 		try {
@@ -129,6 +127,30 @@ public class EjemplarDAO {
 
 	}
 
+	public long buscarIDPorNombre(String nombre) {
+
+		String sql = "SELECT id FROM ejemplares WHERE nombre = ?";
+		long id = 0;
+		try {
+			PreparedStatement ps = conex.prepareStatement(sql);
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				id = rs.getLong(1);
+			}
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Se ha producido una Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return id;
+
+	}
+
 	public boolean eliminar(Ejemplar ej) {
 		try {
 
@@ -140,6 +162,60 @@ public class EjemplarDAO {
 			return ps.executeUpdate() > 0;
 		} catch (SQLException e) {
 			System.out.println("Error al eliminar en ejemplar" + e.getMessage());
+		}
+
+		return false;
+	}
+
+	public ArrayList<Ejemplar> ejemplaresPorTipoPlanta(String codigo) {
+		ArrayList<Ejemplar> ejemplares = new ArrayList();
+		try {
+			String sql = "SELECT * FROM ejemplares WHERE idPlanta=?";
+			PreparedStatement ps = conex.prepareStatement(sql);
+
+			ps.setString(1, codigo);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Ejemplar ej = new Ejemplar();
+
+				ej.setIdPlanta(codigo);
+				ej.setId(rs.getLong("id"));
+				ej.setNombre(rs.getString("nombre"));
+
+				ejemplares.add(ej);
+			}
+		} catch (SQLException e) {
+			System.out.println("Error al Crear una lista de ejemplares" + e.getMessage());
+		}
+
+		return ejemplares;
+	}
+
+	public boolean existePorNombre(String nombre) {
+		Ejemplar ej = null;
+
+		try {
+			if (this.conex == null || this.conex.isClosed()) {
+				this.conex = ConexBD.realizaConexion();
+			}
+
+			ps = conex.prepareStatement("SELECT * FROM ejemplares WHERE nombre = ?");
+			ps.setString(1, nombre);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+
+				return true;
+
+			}
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Se ha producido una Exception: " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		return false;

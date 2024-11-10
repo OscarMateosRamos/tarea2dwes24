@@ -1,15 +1,16 @@
 package control;
 
 public class Controlador {
+	private String username;
+	private Long id;
+
 	private static Controlador servicios;
 	private ServiciosPlanta servPlanta;
 	private ServiciosEjemplar servEjemplar;
 	private ServiciosPersona servPersona;
 	private ServiciosMensaje servMensaje;
 	private ServiciosCredenciales servCredenciales;
-	;
-	
-	
+
 	public static Controlador getServicios() {
 		if (servicios == null) {
 			servicios = new Controlador();
@@ -22,26 +23,43 @@ public class Controlador {
 		servEjemplar = new ServiciosEjemplar();
 		servPersona = new ServiciosPersona();
 		servMensaje = new ServiciosMensaje();
-		servCredenciales= new ServiciosCredenciales();
+		servCredenciales = new ServiciosCredenciales();
 	}
 
 	public ServiciosPlanta getServiciosPlanta() {
 		return servPlanta;
 	}
-	
+
 	public ServiciosEjemplar getServiciosEjemplar() {
 		return servEjemplar;
 	}
-	
+
 	public ServiciosPersona getServiciosPersona() {
 		return servPersona;
 	}
-	
+
 	public ServiciosMensaje getServiciosMensaje() {
 		return servMensaje;
 	}
-	
+
 	public ServiciosCredenciales getServiciosCredenciales() {
 		return servCredenciales;
 	}
+
+	public void setUsername(String usuario) {
+		this.username = usuario;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 }

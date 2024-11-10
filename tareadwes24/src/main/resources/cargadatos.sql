@@ -1,4 +1,6 @@
 
+-- Este es un fichero con inserciones de  datos para probar la funcionalidad del programa
+
 
 INSERT INTO `plantas`(`codigo`, `nombrecomun`, `nombrecientifico`) VALUES ('NOGAL','Nogal','Juglans regia');
 
@@ -14,9 +16,13 @@ INSERT INTO `plantas`(`codigo`, `nombrecomun`, `nombrecientifico`) VALUES ('ABET
 
 
 
+INSERT INTO `credenciales`( `usuario`, `password`) VALUES ('admin','admin');
+
+INSERT INTO `personas`( `nombre`, `email`, `idCredencial`) VALUES ('Juan','juan@juan.es','1');
+
 
 INSERT INTO `credenciales`( `usuario`, `password`) VALUES ('Juan','123');
 
+INSERT INTO `personas`( `nombre`, `email`, `idCredencial`) VALUES ('Juan','juan@micorreo.es','2');
 
 
-INSERT INTO `personas`( `nombre`, `email`, `idCredencial`) VALUES ('Juan','juan@juan.es','1');

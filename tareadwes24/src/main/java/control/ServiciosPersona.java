@@ -8,7 +8,7 @@ import modelo.Planta;
 import utils.ConexBD;
 
 public class ServiciosPersona {
-	
+
 	private ConexBD con;
 	private PersonaDAO personaDAO;
 
@@ -41,6 +41,11 @@ public class ServiciosPersona {
 		return personaDAO.verTodas();
 
 	}
+	
+	public Persona buscarPorIDCredencial(long identificador) {
+		return personaDAO.buscarPorIDCredencial(identificador);
+
+	}
 
 	public boolean validarEmail(String email) {
 
@@ -48,6 +53,7 @@ public class ServiciosPersona {
 			System.out.println("Ya existe el email");
 			return false;
 		}
+
 		return true;
 
 	}

@@ -1,8 +1,10 @@
 package control;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import dao.PlantaDAO;
+import modelo.Mensaje;
 import modelo.Planta;
 import utils.ConexBD;
 
@@ -10,7 +12,6 @@ public class ServiciosPlanta {
 	private ConexBD con;
 	private PlantaDAO plantaDAO;
 
-	
 	public ServiciosPlanta() {
 		con = ConexBD.getInstance();
 		plantaDAO = (PlantaDAO) con.getPlantaDAO();
@@ -35,14 +36,13 @@ public class ServiciosPlanta {
 		return plantaDAO.buscarPorCodigo(id);
 
 	}
-	
-	
+
 	public boolean existePorCodigo(String id) {
 		return plantaDAO.existePorCodigo(id);
 
 	}
 
-	public Collection<Planta> verPlanta() {
+	public Collection<Planta> verTodas() {
 		return plantaDAO.verTodas();
 
 	}

@@ -37,24 +37,7 @@ public class PlantaDAO {
 			System.out.println("Error al insertar en planta" + e.getMessage());
 		}
 		return 0;
-
 	}
-
-	/*
-	 * public boolean modificar(Planta pl) { try {
-	 * 
-	 * String sql = "UPDATE planta SET nombrecomun = ?WHERE codigo = ?";
-	 * PreparedStatement ps = conex.prepareStatement(sql);
-	 * 
-	 * ps.setString(1, pl.getCodigo()); ps.setString(2, pl.getNombrecomun());
-	 * ps.setString(3, pl.getNombrecientifico());
-	 * 
-	 * return ps.executeUpdate() > 0; } catch (SQLException e) {
-	 * System.out.println("Error al modificar en planta" + e.getMessage()); } return
-	 * false;
-	 * 
-	 * }
-	 */
 
 	public boolean modificarNombrecomun(String codigo, String nombrecomun) {
 		try {
@@ -62,28 +45,22 @@ public class PlantaDAO {
 
 			ps.setString(1, nombrecomun);
 			ps.setString(2, codigo);
-
 			return ps.executeUpdate() > 0;
 		} catch (SQLException e) {
 			System.out.println("Error al modificar en planta" + e.getMessage());
 		}
-
 		return false;
 	}
 
 	public boolean modificarNombrecientifico(String codigo, String nombrecientifico) {
 		try {
-
 			ps = conex.prepareStatement("UPDATE plantas SET nombrecientifico = ? WHERE codigo = ?");
-
 			ps.setString(1, nombrecientifico);
 			ps.setString(2, codigo);
-
 			return ps.executeUpdate() > 0;
 		} catch (SQLException e) {
 			System.out.println("Error al modificar en planta" + e.getMessage());
 		}
-
 		return false;
 	}
 
@@ -113,7 +90,6 @@ public class PlantaDAO {
 		} catch (SQLException e) {
 			System.out.println("Error al ver las plantas" + e.getMessage());
 		}
-
 		return plantas;
 	}
 
@@ -160,10 +136,8 @@ public class PlantaDAO {
 			System.out.println("Error al eliminar en planta" + e.getMessage());
 		}
 		return false;
-
 	}
 
-	
 	public boolean existePorCodigo(String id) {
 		Planta pl = null;
 

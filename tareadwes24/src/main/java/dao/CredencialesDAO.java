@@ -42,7 +42,7 @@ public class CredencialesDAO {
 
 	}
 
-//PARA VER ADMIN
+
 
 	public Collection<Credenciales> verTodas() {
 		// TODO Auto-generated method stub

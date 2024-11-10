@@ -13,8 +13,6 @@ import utils.ConexBD;
 
 public class PersonaDAO {
 
-	
-	
 	Connection conex;
 	private PreparedStatement ps;
 	private ResultSet rs;
@@ -50,7 +48,7 @@ public class PersonaDAO {
 	public boolean modificar(Persona p) {
 		try {
 
-			String sql = "UPDATE personas SET email = ?, admin = ?,idCredencial=? WHERE id = ?";
+			String sql = "UPDATE personas SET email = ?, nombre = ?,idCredencial=? WHERE id = ?";
 			PreparedStatement ps = conex.prepareStatement(sql);
 
 			ps.setString(1, p.getEmail());
@@ -119,13 +117,40 @@ public class PersonaDAO {
 
 		return p;
 	}
-
+	
+	
 	public Persona buscarPorEmail(String identificador) {
 		String sql = "SELECT * FROM personas WHERE email = ?";
 		Persona p = null;
 		try {
 			PreparedStatement ps = conex.prepareStatement(sql);
 			ps.setString(1, identificador);
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				long id = rs.getLong("id");
+				String nombre = rs.getString("nombre");
+				String email = rs.getString("email");
+				long idCredencial = rs.getLong("idCredencial");
+				p = new Persona(id, nombre, email, idCredencial);
+			}
+		} catch (SQLException e) {
+			System.out.println("Se ha producido una SQLException: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("Se ha producido una Exception: " + e.getMessage());
+			e.printStackTrace();
+		}
+
+		return p;
+	}
+
+	public Persona buscarPorIDCredencial(long identificador) {
+		String sql = "SELECT * FROM personas WHERE  idCredencial= ?";
+		Persona p = null;
+		try {
+			PreparedStatement ps = conex.prepareStatement(sql);
+			ps.setLong(1, identificador);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {

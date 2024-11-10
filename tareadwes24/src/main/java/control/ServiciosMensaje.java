@@ -1,5 +1,6 @@
 package control;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import dao.MensajeDAO;
@@ -7,7 +8,7 @@ import modelo.Mensaje;
 import utils.ConexBD;
 
 public class ServiciosMensaje {
-	
+
 	private ConexBD con;
 	private MensajeDAO mensajeDAO;
 
@@ -26,14 +27,22 @@ public class ServiciosMensaje {
 
 	}
 
-	public Collection<Mensaje> verMensajeIdEjemplar(long identificador) {
+	public ArrayList<Mensaje> mostrarMensajeIdEjemplar(long identificador) {
 		return mensajeDAO.buscarPorIdEjemplar(identificador);
 
 	}
-	
+
 	public Collection<Mensaje> vertodosMensajes() {
 		return mensajeDAO.verTodas();
 
 	}
 
+	public ArrayList<Mensaje> mostrarMensajesPorCodigoPlanta() {
+		return mensajeDAO.buscarMensajesPorCodigoPlanta();
+	}
+	
+	
+	public ArrayList< Mensaje> mostrarMensajeTipoPlanta(String codigo) {
+		return mensajeDAO.mostrarMensajeTipoPlanta(codigo);
+	}
 }

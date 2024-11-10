@@ -7,7 +7,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Scanner;
 
+import control.Controlador;
+import modelo.Ejemplar;
 import modelo.Mensaje;
 import utils.ConexBD;
 
@@ -26,7 +29,6 @@ public class MensajeDAO {
 
 	public long insertar(Mensaje m) {
 
-		
 		try {
 
 			String sql = "INSERT INTO mensajes(fechahora,mensaje,idEjemplar,idPersona) values (?,?,?,?)";
@@ -63,6 +65,10 @@ public class MensajeDAO {
 						rs.getString("mensaje"), rs.getLong("idEjemplar"), rs.getLong("idPersona"));
 				mensajes.add(m);
 			}
+
+			for (Mensaje m : mensajes) {
+				System.out.println(m);
+			}
 			ConexBD.cerrarConexion();
 
 		} catch (SQLException e) {
@@ -70,7 +76,6 @@ public class MensajeDAO {
 		}
 
 		return mensajes;
-
 	}
 
 	public ArrayList<Mensaje> buscarPorIdPersona(long identificador) {
@@ -127,6 +132,65 @@ public class MensajeDAO {
 		} catch (Exception e) {
 			System.out.println("Se ha producido una Exception: " + e.getMessage());
 			e.printStackTrace();
+		}
+
+		return mensajes;
+
+	}
+
+	public ArrayList<Mensaje> buscarMensajesPorCodigoPlanta() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Introduce el codigo de la Planta");
+		String codigo = sc.next();
+		String sql = "SELECT DISTINCT mensajes.id , fechahora , mensaje , mensajes.idEjemplar, mensajes.idPersona "
+				+ "FROM mensajes, ejemplares, plantas WHERE mensajes.idejemplar= ejemplares.id AND ejemplares.idPlanta=?";
+
+		ArrayList<Mensaje> mensajes = new ArrayList<>();
+
+		try {
+			if (this.conex == null || this.conex.isClosed()) {
+				this.conex = ConexBD.realizaConexion();
+			}
+
+			PreparedStatement ps = conex.prepareStatement(sql);
+			ps.setString(1, codigo);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Mensaje m = new Mensaje(rs.getLong("id"), rs.getTimestamp("fechahora").toLocalDateTime(),
+						rs.getString("mensaje"), rs.getLong("idEjemplar"), rs.getLong("idPersona"));
+				mensajes.add(m);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al ver los mensajes" + e.getMessage());
+		}
+
+		return mensajes;
+
+	}
+
+	public ArrayList<Mensaje> mostrarMensajeTipoPlanta(String codigo) {
+		String sql = "SELECT DISTINCT mensajes.id , fechahora , mensaje , mensajes.idEjemplar, mensajes.idPersona "
+				+ "FROM mensajes, ejemplares, plantas WHERE mensajes.idejemplar= ejemplares.id AND ejemplares.idPlanta=?";
+
+		ArrayList<Mensaje> mensajes = new ArrayList<>();
+
+		try {
+			if (this.conex == null || this.conex.isClosed()) {
+				this.conex = ConexBD.realizaConexion();
+			}
+
+			PreparedStatement ps = conex.prepareStatement(sql);
+			ps.setString(1, codigo);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Mensaje m = new Mensaje(rs.getLong("id"), rs.getTimestamp("fechahora").toLocalDateTime(),
+						rs.getString("mensaje"), rs.getLong("idEjemplar"), rs.getLong("idPersona"));
+				mensajes.add(m);
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Error al ver los mensajes" + e.getMessage());
 		}
 
 		return mensajes;
