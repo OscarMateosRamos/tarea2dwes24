@@ -69,7 +69,7 @@ public class MensajeDAO {
 			for (Mensaje m : mensajes) {
 				System.out.println(m);
 			}
-			ConexBD.cerrarConexion();
+			// ConexBD.cerrarConexion();
 
 		} catch (SQLException e) {
 			System.out.println("Error al ver los mensajes" + e.getMessage());

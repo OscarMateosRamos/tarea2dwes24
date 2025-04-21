@@ -85,7 +85,7 @@ public class PlantaDAO {
 			for (Planta pl : plantas) {
 				System.out.println(pl);
 			}
-			ConexBD.cerrarConexion();
+		//	ConexBD.cerrarConexion();
 
 		} catch (SQLException e) {
 			System.out.println("Error al ver las plantas" + e.getMessage());

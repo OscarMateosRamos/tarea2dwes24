@@ -25,7 +25,7 @@ public class ConexBD {
 		FileInputStream fis;
 
 		try {
-			fis = new FileInputStream("src/main/resources/db.properties.txt");
+			fis = new FileInputStream("src/main/resources/db.properties");
 
 			prop.load(fis);
 
