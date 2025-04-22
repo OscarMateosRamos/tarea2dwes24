@@ -94,7 +94,7 @@ public class EjemplarDAO {
 				ejemplares.add(ejemplar);
 
 			}
-			conex.close();
+			//conex.close();
 
 		} catch (SQLException e) {
 			System.out.println("Error al ver los ejemplares" + e.getMessage());
@@ -104,8 +104,7 @@ public class EjemplarDAO {
 	}
 
 	public Ejemplar buscarPorID(long identificador) {
-
-		String sql = "SELECT * FROM ejemplares WHERE codigo = ?";
+		String sql = "SELECT * FROM ejemplares WHERE id = ?";
 		Ejemplar ej = null;
 		try {
 			PreparedStatement ps = conex.prepareStatement(sql);
@@ -113,7 +112,7 @@ public class EjemplarDAO {
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-
+				ej = new Ejemplar(rs.getLong(1), rs.getString(2), rs.getString(3));
 			}
 		} catch (SQLException e) {
 			System.out.println("Se ha producido una SQLException: " + e.getMessage());
@@ -127,17 +126,17 @@ public class EjemplarDAO {
 
 	}
 
-	public long buscarIDPorNombre(String nombre) {
+	public Ejemplar buscarEjemplarPorNombre(String nombre) {
 
-		String sql = "SELECT id FROM ejemplares WHERE nombre = ?";
-		long id = 0;
+		String sql = "SELECT * FROM ejemplares WHERE nombre = ?";
+		Ejemplar ej = null;
 		try {
 			PreparedStatement ps = conex.prepareStatement(sql);
 			ps.setString(1, nombre);
 			ResultSet rs = ps.executeQuery();
 
 			while (rs.next()) {
-				id = rs.getLong(1);
+				ej = new Ejemplar(rs.getLong(1), rs.getString(2), rs.getString(3));
 			}
 		} catch (SQLException e) {
 			System.out.println("Se ha producido una SQLException: " + e.getMessage());
@@ -147,14 +146,14 @@ public class EjemplarDAO {
 			e.printStackTrace();
 		}
 
-		return id;
+		return ej;
 
 	}
 
 	public boolean eliminar(Ejemplar ej) {
 		try {
 
-			String sql = "DELETE FROM ejemplares WHERE codigo = ?";
+			String sql = "DELETE FROM ejemplares WHERE id = ?";
 			PreparedStatement ps = conex.prepareStatement(sql);
 
 			ps.setLong(1, ej.getId());
@@ -194,31 +193,7 @@ public class EjemplarDAO {
 	}
 
 	public boolean existePorNombre(String nombre) {
-		Ejemplar ej = null;
-
-		try {
-			if (this.conex == null || this.conex.isClosed()) {
-				this.conex = ConexBD.realizaConexion();
-			}
-
-			ps = conex.prepareStatement("SELECT * FROM ejemplares WHERE nombre = ?");
-			ps.setString(1, nombre);
-			ResultSet rs = ps.executeQuery();
-
-			while (rs.next()) {
-
-				return true;
-
-			}
-		} catch (SQLException e) {
-			System.out.println("Se ha producido una SQLException: " + e.getMessage());
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.out.println("Se ha producido una Exception: " + e.getMessage());
-			e.printStackTrace();
-		}
-
-		return false;
+		return this.buscarEjemplarPorNombre(nombre) != null;
 	}
 
 }

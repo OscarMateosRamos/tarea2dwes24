@@ -1,9 +1,11 @@
 package control;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import dao.EjemplarDAO;
 import modelo.Ejemplar;
+import modelo.Planta;
 import utils.ConexBD;
 
 public class ServiciosEjemplar {
@@ -36,8 +38,12 @@ public class ServiciosEjemplar {
 
 	}
 
-	public long buscarIDPorNombre(String nombre) {
-		return ejemplarDAO.buscarIDPorNombre(nombre);
+	public Ejemplar buscarEjemplarPorNombre(String nombre) {
+		return ejemplarDAO.buscarEjemplarPorNombre(nombre);
+	}
+
+	public Collection<Ejemplar> verTodas() {
+		return ejemplarDAO.verTodas();
 	}
 
 }

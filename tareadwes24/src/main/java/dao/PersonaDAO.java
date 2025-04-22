@@ -84,7 +84,7 @@ public class PersonaDAO {
 			for (Persona p : personas) {
 				System.out.println(p);
 			}
-		//	ConexBD.cerrarConexion();
+//			ConexBD.cerrarConexion();
 		} catch (SQLException e) {
 			System.out.println("Error al ver las personas" + e.getMessage());
 		}

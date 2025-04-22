@@ -20,19 +20,13 @@ public class Principal {
 
 	private static ViveroFachadaInvitado portalInvitado;
 
-	// Connection con = ConexBD.realizaConexion();
-
-	Controlador factoriaServicios = Controlador.getServicios();
-
-	ServiciosPlanta plantaServ = factoriaServicios.getServiciosPlanta();
-
 	public static void menuLogin() {
 		int opcion = 0;
 		Scanner sc = new Scanner(System.in);
 
 		do {
 			System.out.println("\n--- BIENVENIDO AL VIVERO ---");
-			System.out.println("1. ENTRAR COMO INVITADO");
+			System.out.println("1. VER PLANTAS EXISTENTES");
 			System.out.println("2. LOGIN (PERSONAL O ADMIN)");
 			System.out.println("3. SALIR");
 			System.out.print("Selecciona una opción: ");

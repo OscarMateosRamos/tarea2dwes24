@@ -1,26 +1,19 @@
 package vista;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import control.Controlador;
+import control.ServiciosEjemplar;
 import control.ServiciosPlanta;
 import modelo.Ejemplar;
 import modelo.Mensaje;
-import utils.ConexBD;
 
 public class ViveroFachadaPersonal {
 
 	private static ViveroFachadaPersonal portalPersonal;
-
-	PreparedStatement ps;
-	Connection conex;
 
 	private ViveroFachadaPersonal() {
 
@@ -31,6 +24,7 @@ public class ViveroFachadaPersonal {
 	Controlador factoriaServicios = Controlador.getServicios();
 
 	ServiciosPlanta plantaServ = factoriaServicios.getServiciosPlanta();
+	ServiciosEjemplar ejemplarServ = factoriaServicios.getServiciosEjemplar();
 
 	private static Controlador controlador = Controlador.getServicios();
 
@@ -125,12 +119,14 @@ public class ViveroFachadaPersonal {
 	public void crearEjemplar() {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("***Creando ejemplar");
+		System.out.println("-- PLANTAS EXISTENTES EN LA BASE DE DATOS");
+		plantaServ.verTodas();
 		Ejemplar ej = new Ejemplar();
 		System.out.print("Código de la planta del ejemplar: ");
 		String codigo = sc.next().trim().toUpperCase();
 
 		if (Controlador.getServicios().getServiciosPlanta().existePorCodigo(codigo)) {
-			System.out.println("Existe el codigo");
+			/// System.out.println("Existe el codigo");
 			ej.setIdPlanta(codigo);
 			ej.setNombre(codigo);
 
@@ -150,7 +146,7 @@ public class ViveroFachadaPersonal {
 
 			Controlador.getServicios().getServiciosMensaje().insertarMensaje(m);
 		} else {
-			System.out.println("--- NO Existe el codigo");
+			System.out.println("--- NO Existe el codigo:" + codigo);
 
 		}
 
@@ -159,25 +155,30 @@ public class ViveroFachadaPersonal {
 	public void mostrarMensajeTipoPlanta() {
 		try {
 			Scanner sc = new Scanner(System.in);
+			plantaServ.verTodas();
 			System.out.println("Introduce el código de la planta");
 			String codigo = sc.next().trim().toUpperCase();
 
 			boolean codigoOk = Controlador.getServicios().getServiciosPlanta().existePorCodigo(codigo);
 			if (codigoOk) {
-				ArrayList<Mensaje> mensajes = Controlador.getServicios().getServiciosMensaje()
-						.mostrarMensajeTipoPlanta(codigo);
+				if (ejemplarServ.ejemplaresPorTipoPlanta(codigo).isEmpty()) {
+					System.out.println("No hay ejemplares con el codigo: " + codigo);
 
-				if (mensajes.isEmpty()) {
-					System.out.println("No hay mensajes con código: " + codigo);
 				} else {
-					System.out.println("---- Mensajes con código: " + codigo);
-					for (Mensaje m : mensajes) {
-						System.out.println(m);
+					ArrayList<Mensaje> mensajes = Controlador.getServicios().getServiciosMensaje()
+							.mostrarMensajeTipoPlanta(codigo);
+
+					if (mensajes.isEmpty()) {
+						System.out.println("No hay mensajes con código: " + codigo);
+					} else {
+						System.out.println("---- Mensajes con código: " + codigo);
+						for (Mensaje m : mensajes) {
+							System.out.println(m);
+						}
 					}
 				}
-
 			} else {
-				System.out.println("No hay plantas con el codigo : " + codigo);
+				System.out.println("El codigo: " + codigo + " no es  correcto");
 
 			}
 		} catch (Exception e) {
@@ -189,12 +190,16 @@ public class ViveroFachadaPersonal {
 	public void mostrarMensajePorEjemplar() {
 		try {
 			Scanner sc = new Scanner(System.in);
+			System.out.println("-LISTADO DE LOS EJEMPLARES EN LA BASE DE DATOS");
+			ejemplarServ.verTodas();
 			System.out.println("Introduce el nombre del Ejemplar");
 			String nombre = sc.next().trim();
 
 			boolean nombreOk = Controlador.getServicios().getServiciosEjemplar().existePorNombre(nombre);
 			if (nombreOk) {
-				long id = controlador.getServiciosEjemplar().buscarIDPorNombre(nombre);
+				Ejemplar ej = controlador.getServiciosEjemplar().buscarEjemplarPorNombre(nombre);
+				long id = (ej != null ? ej.getId() : 0);
+
 				ArrayList<Mensaje> mensajes = Controlador.getServicios().getServiciosMensaje()
 						.mostrarMensajeIdEjemplar(id);
 
@@ -276,7 +281,9 @@ public class ViveroFachadaPersonal {
 				long idCredencial = Controlador.getServicios().getServiciosCredenciales().buscarIdPorUsuario(username);
 				long idPersona = Controlador.getServicios().getServiciosPersona().buscarPorIDCredencial(idCredencial)
 						.getId();
-				long idEjemplar = Controlador.getServicios().getServiciosEjemplar().buscarIDPorNombre(nombreEj);
+				Ejemplar ej = Controlador.getServicios().getServiciosEjemplar().buscarEjemplarPorNombre(nombreEj);
+
+				long idEjemplar = (ej != null ? ej.getId() : 0);
 
 				Mensaje m = new Mensaje(fechahora, texto, idEjemplar, idPersona);
 				Controlador.getServicios().getServiciosMensaje().insertarMensaje(m);
