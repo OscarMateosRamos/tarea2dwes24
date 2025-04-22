@@ -250,8 +250,7 @@ public class ViveroFachadaAdmin {
 					System.out.println("Introduce el id de Ejemplar");
 					long idEjemplar = sc.nextLong();
 
-					// mensajesServ.verMensajeIdEjemplar();//* Sacar la planta con el id de Ejemplar
-
+				
 					break;
 
 				case 4:

@@ -98,7 +98,8 @@ public class ViveroFachadaPersonal {
 					crearEjemplar();
 					break;
 				case 2:
-					ViveroFachadaPersonal.getPortal().mostrarMensajeTipoPlanta();
+					ViveroFachadaPersonal.getPortal().mostrarEjemplaresPorTipoPlanta();
+					;
 					break;
 				case 3:
 					mostrarMensajePorEjemplar();
@@ -152,7 +153,7 @@ public class ViveroFachadaPersonal {
 
 	}
 
-	public void mostrarMensajeTipoPlanta() {
+	public void mostrarEjemplaresPorTipoPlanta() {
 		try {
 			Scanner sc = new Scanner(System.in);
 			plantaServ.verTodas();
@@ -161,31 +162,59 @@ public class ViveroFachadaPersonal {
 
 			boolean codigoOk = Controlador.getServicios().getServiciosPlanta().existePorCodigo(codigo);
 			if (codigoOk) {
-				if (ejemplarServ.ejemplaresPorTipoPlanta(codigo).isEmpty()) {
-					System.out.println("No hay ejemplares con el codigo: " + codigo);
 
+				ArrayList<Ejemplar> ejemplares = ejemplarServ.ejemplaresPorTipoPlanta(codigo);
+
+				if (ejemplares.isEmpty()) {
+					System.out.println("No hay ejemplares con el código: " + codigo);
 				} else {
-					ArrayList<Mensaje> mensajes = Controlador.getServicios().getServiciosMensaje()
-							.mostrarMensajeTipoPlanta(codigo);
-
-					if (mensajes.isEmpty()) {
-						System.out.println("No hay mensajes con código: " + codigo);
-					} else {
-						System.out.println("---- Mensajes con código: " + codigo);
-						for (Mensaje m : mensajes) {
-							System.out.println(m);
-						}
+					System.out.println("---- Ejemplares con código: " + codigo);
+					for (Ejemplar e : ejemplares) {
+						System.out.println(e);
 					}
 				}
 			} else {
-				System.out.println("El codigo: " + codigo + " no es  correcto");
-
+				System.out.println("El código: " + codigo + " no es correcto");
 			}
 		} catch (Exception e) {
-			System.out.println("Error al  mostar mensajes por codigo planta " + e.getMessage());
+			System.out.println("Error al mostrar ejemplares por código de planta: " + e.getMessage());
 		}
-
 	}
+
+//	public void mostrarMensajeTipoPlanta() {
+//		try {
+//			Scanner sc = new Scanner(System.in);
+//			plantaServ.verTodas();
+//			System.out.println("Introduce el código de la planta");
+//			String codigo = sc.next().trim().toUpperCase();
+//
+//			boolean codigoOk = Controlador.getServicios().getServiciosPlanta().existePorCodigo(codigo);
+//			if (codigoOk) {
+//				if (ejemplarServ.ejemplaresPorTipoPlanta(codigo).isEmpty()) {
+//					System.out.println("No hay ejemplares con el codigo: " + codigo);
+//
+//				} else {
+//					ArrayList<Mensaje> mensajes = Controlador.getServicios().getServiciosMensaje()
+//							.mostrarMensajeTipoPlanta(codigo);
+//
+//					if (mensajes.isEmpty()) {
+//						System.out.println("No hay mensajes con código: " + codigo);
+//					} else {
+//						System.out.println("---- Mensajes con código: " + codigo);
+//						for (Mensaje m : mensajes) {
+//							System.out.println(m);
+//						}
+//					}
+//				}
+//			} else {
+//				System.out.println("El codigo: " + codigo + " no es  correcto");
+//
+//			}
+//		} catch (Exception e) {
+//			System.out.println("Error al  mostar mensajes por codigo planta " + e.getMessage());
+//		}
+//
+//	}
 
 	public void mostrarMensajePorEjemplar() {
 		try {
