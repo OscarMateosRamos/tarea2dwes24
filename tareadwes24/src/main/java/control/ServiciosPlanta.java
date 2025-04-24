@@ -1,10 +1,8 @@
 package control;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import dao.PlantaDAO;
-import modelo.Mensaje;
 import modelo.Planta;
 import utils.ConexBD;
 
@@ -54,12 +52,13 @@ public class ServiciosPlanta {
 
 	public boolean validarPlanta(Planta pl) {
 
-		if (pl.getCodigo().isEmpty()) {
-
+		if (pl.getCodigo().isEmpty() || pl.getCodigo().matches(".*\\s.*")) {
+			System.out.println(" Codigo no introducido o con esapcios");
 			return false;
 		}
 
 		if (pl.getCodigo().length() < 3 || pl.getCodigo().length() > 20) {
+			System.out.println("Longitud del codigo de la planta invalida minimo 3 caracteres y maximo 20");
 			return false;
 		}
 
@@ -69,10 +68,12 @@ public class ServiciosPlanta {
 		}
 
 		if (pl.getNombrecientifico().length() > 45) {
+			System.out.println("El nombre cientifico excede de 45 caracteres");
 			return false;
 		}
 
 		if (pl.getNombrecomun().length() > 40) {
+			System.out.println("El nombre comun excede de 40 caracteres");
 			return false;
 		}
 

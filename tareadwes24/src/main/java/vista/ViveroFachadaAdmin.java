@@ -42,7 +42,7 @@ public class ViveroFachadaAdmin {
 	}
 
 	public void mostrarMenuPrincipal() {
-		ViveroFachadaPersonal portalPersonal = ViveroFachadaPersonal.getPortal();
+
 		int opcion = 0;
 		Scanner sc = new Scanner(System.in);
 		do {
@@ -66,12 +66,10 @@ public class ViveroFachadaAdmin {
 					menuPersonas();
 					break;
 				case 3:
-
-					portalPersonal.getPortal().menuMensajes();
+					ViveroFachadaPersonal.getPortal().menuMensajes();
 					break;
 				case 4:
-
-					portalPersonal.getPortal().menuEjemplares();
+					ViveroFachadaPersonal.getPortal().menuEjemplares();
 					break;
 
 				case 5:
@@ -219,53 +217,52 @@ public class ViveroFachadaAdmin {
 
 	}
 
-	private void menuFiltrarMensaje() {
-
-		int opcion = 0;
-		Scanner sc = new Scanner(System.in);
-		do {
-			System.out.println("---Ver Mensaje:---");
-			System.out.println("1.  Ver mensaje filtrado por rango de fechas.");
-			System.out.println("2.  Ver mensaje filtrado por persona.");
-			System.out.println("3.  Ver mensaje filtrado por tipo de planta.");
-			System.out.println("4.  Salir");
-			try {
-				opcion = sc.nextInt();
-				if (opcion < 1 || opcion > 4) {
-					System.out.println("Opción incorrecta.");
-					continue;
-				}
-				switch (opcion) {
-				case 1:
-
-					break;
-				case 2:
-					System.out.println("Introduce el id de persona");
-					long idPersona = sc.nextLong();
-
-					mensajesServ.verMensajeIdPersona(idPersona);
-					break;
-
-				case 3:
-					System.out.println("Introduce el id de Ejemplar");
-					long idEjemplar = sc.nextLong();
-
-				
-					break;
-
-				case 4:
-					break;
-				}
-			} catch (InputMismatchException e) {
-
-				System.out.println("Introduce un número.... Repita el proceso");
-				sc.nextLine();
-				opcion = 0;
-			}
-
-		} while (opcion != 4);
-
-	}
+//	private void menuFiltrarMensaje() {
+//
+//		int opcion = 0;
+//		Scanner sc = new Scanner(System.in);
+//		do {
+//			System.out.println("---Ver Mensaje:---");
+//			System.out.println("1.  Ver mensaje filtrado por rango de fechas.");
+//			System.out.println("2.  Ver mensaje filtrado por persona.");
+//			System.out.println("3.  Ver mensaje filtrado por tipo de planta.");
+//			System.out.println("4.  Salir");
+//			try {
+//				opcion = sc.nextInt();
+//				if (opcion < 1 || opcion > 4) {
+//					System.out.println("Opción incorrecta.");
+//					continue;
+//				}
+//				switch (opcion) {
+//				case 1:
+//
+//					break;
+//				case 2:
+//					System.out.println("Introduce el id de persona");
+//					long idPersona = sc.nextLong();
+//
+//					mensajesServ.verMensajeIdPersona(idPersona);
+//					break;
+//
+//				case 3:
+//					System.out.println("Introduce el id de Ejemplar");
+//					long idEjemplar = sc.nextLong();
+//
+//					break;
+//
+//				case 4:
+//					break;
+//				}
+//			} catch (InputMismatchException e) {
+//
+//				System.out.println("Introduce un número.... Repita el proceso");
+//				sc.nextLine();
+//				opcion = 0;
+//			}
+//
+//		} while (opcion != 4);
+//
+//	}
 
 	private void menuPersonas() {
 
@@ -292,18 +289,39 @@ public class ViveroFachadaAdmin {
 
 					Persona p = new Persona();
 					sc = new Scanner(System.in);
-
+					String usuario;
+					String password;
 					System.out.println("Dame el nombre de la nueva Persona");
 					String nombre = sc.nextLine();
 
 					System.out.println("Dame el email de la nueva Persona");
 					String email = sc.nextLine();
 
-					System.out.println("Introduce el nombre de usuario");
-					String usuario = sc.nextLine();
+					do {
+						System.out.println("Introduce el nombre de usuario");
+						usuario = sc.nextLine();
 
-					System.out.println("Introduce el password");
-					String password = sc.nextLine();
+						if (usuario.matches(".*\\s.*")) {
+							System.out.println("El nombre de usuario no puede contener espacios en blanco");
+						} else {
+							formatoOK = true;
+						}
+
+					} while (!formatoOK);
+
+					formatoOK = false;
+
+					do {
+						System.out.println("Introduce el password");
+						password = sc.nextLine();
+
+						if (password.matches(".*\\s.*")) {
+							System.out.println(" La  contraseña del usuario no puede contener espacios en blanco");
+						} else {
+							formatoOK = true;
+						}
+
+					} while (!formatoOK);
 
 					if (!credencialesServ.validarUsuario(usuario)) {
 						System.out.println("Ya existe ese  usuario en credenciales: " + usuario);
@@ -318,6 +336,7 @@ public class ViveroFachadaAdmin {
 							p.setEmail(email);
 							p.setIdCredencial(credencialesServ.buscarIdPorUsuario(usuario));
 							personaServ.insertarPersona(p);
+							System.out.println("Persona insertada correctamente");
 						}
 
 					}

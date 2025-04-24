@@ -41,7 +41,7 @@ public class ServiciosPersona {
 		return personaDAO.verTodas();
 
 	}
-	
+
 	public Persona buscarPorIDCredencial(long identificador) {
 		return personaDAO.buscarPorIDCredencial(identificador);
 
@@ -54,6 +54,15 @@ public class ServiciosPersona {
 			return false;
 		}
 
+		if (email.matches(".*\\s.*")) {
+			System.out.println("El email no puede contener espacios");
+			return false;
+		}
+
+		if (email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+			System.out.println("El email no tiene el formato correcto");
+			return false;
+		}
 		return true;
 
 	}

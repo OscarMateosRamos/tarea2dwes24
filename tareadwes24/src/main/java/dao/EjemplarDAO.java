@@ -167,7 +167,7 @@ public class EjemplarDAO {
 	}
 
 	public ArrayList<Ejemplar> ejemplaresPorTipoPlanta(String codigo) {
-		ArrayList<Ejemplar> ejemplares = new ArrayList();
+		ArrayList<Ejemplar> ejemplares = new ArrayList<>();
 		try {
 			String sql = "SELECT * FROM ejemplares WHERE idPlanta=?";
 			PreparedStatement ps = conex.prepareStatement(sql);
