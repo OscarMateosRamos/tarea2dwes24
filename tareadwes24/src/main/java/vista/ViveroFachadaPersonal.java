@@ -1,7 +1,9 @@
 package vista;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -325,8 +327,58 @@ public class ViveroFachadaPersonal {
 		}
 
 	}
-	
-	//CORREGIR
+
+	// CORREGIR
+//	private void menuFiltrarMensaje() {
+//
+//		int opcion = 0;
+//		Scanner sc = new Scanner(System.in);
+//		do {
+//			System.out.println("---Ver Mensaje:---");
+//			System.out.println("1.  Ver mensaje filtrado por rango de fechas.");
+//			System.out.println("2.  Ver mensaje filtrado por persona.");
+//			System.out.println("3.  Ver mensaje filtrado por tipo de planta.");
+//			System.out.println("4.  Salir");
+//			try {
+//				opcion = sc.nextInt();
+//				if (opcion < 1 || opcion > 4) {
+//					System.out.println("Opción incorrecta.");
+//					continue;
+//				}
+//				switch (opcion) {
+//				case 1:
+//
+//					break;
+//				case 2:
+//					System.out.println("Introduce el id de persona");
+//					long idPersona = sc.nextLong();
+//
+//					Controlador.getServicios().getServiciosMensaje().verMensajeIdPersona(idPersona);
+//					break;
+//
+//				case 3:
+//					sc.nextLine();
+//					System.out.println("Introduce el id de Ejemplar");
+//					long idEjemplar = sc.nextLong();
+//
+//					Controlador.getServicios().getServiciosMensaje().mostrarMensajeIdEjemplar(idEjemplar);
+//
+//					break;
+//
+//				case 4:
+//					break;
+//				}
+//			} catch (InputMismatchException e) {
+//				System.out.println("Introduce un numero.... Repita el proceso");
+//				sc.nextLine();
+//				opcion = 0;
+//
+//			}
+//
+//		} while (opcion != 4);
+//
+//	}
+
 	private void menuFiltrarMensaje() {
 
 		int opcion = 0;
@@ -345,36 +397,71 @@ public class ViveroFachadaPersonal {
 				}
 				switch (opcion) {
 				case 1:
+					DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
+					sc.nextLine();
+					System.out.println("Introduce la fecha de inicio (yyyy-MM-dd HH:mm):");
+					String fechaInicioStr = sc.nextLine();
+					LocalDateTime fechaInicio = LocalDateTime.parse(fechaInicioStr, formatter);
+
+					System.out.println("Introduce la fecha de fin (yyyy-MM-dd HH:mm):");
+					String fechaFinStr = sc.nextLine();
+					LocalDateTime fechaFin = LocalDateTime.parse(fechaFinStr, formatter);
+
+					Collection<Mensaje> mensajesPorFechas = Controlador.getServicios().getServiciosMensaje()
+							.mostrarMensajesPorFechas(fechaInicio, fechaFin);
+
+					if (mensajesPorFechas.isEmpty()) {
+						System.out.println("No se encontraron mensajes entre las fechas proporcionadas.");
+					} else {
+						for (Mensaje m : mensajesPorFechas) {
+							System.out.println(m);
+						}
+					}
 					break;
+
 				case 2:
 					System.out.println("Introduce el id de persona");
 					long idPersona = sc.nextLong();
 
-					// mensajesServ.verMensajeIdPersona(idPersona);
+					Collection<Mensaje> mensajes = Controlador.getServicios().getServiciosMensaje()
+							.verMensajeIdPersona(idPersona);
+
+					if (mensajes.isEmpty()) {
+						System.out.println("No se encontraron mensajes para la persona con ID: " + idPersona);
+					} else {
+						for (Mensaje m : mensajes) {
+							System.out.println(m);
+						}
+					}
 					break;
 
 				case 3:
 					sc.nextLine();
-					System.out.println("Introduce el id de Ejemplar");
-					long idEjemplar = sc.nextLong();
+					System.out.println("Introduce el codigo de la planta");
+					String idPlanta = sc.next();
 
-					Controlador.getServicios().getServiciosMensaje().mostrarMensajeIdEjemplar(idEjemplar);
-
+					Collection<Mensaje> mensajesPlanta = Controlador.getServicios().getServiciosMensaje()
+							.mostrarMensajeTipoPlanta(idPlanta);
+					if (mensajesPlanta.isEmpty()) {
+						System.out.println("No se encontraron mensajes para la planta con CODIGO: " + idPlanta);
+					} else {
+						for (Mensaje m : mensajesPlanta) {
+							System.out.println(m);
+						}
+					}
 					break;
 
 				case 4:
 					break;
 				}
 			} catch (InputMismatchException e) {
-				System.out.println("Introduce un numero.... Repita el proceso");
+				System.out.println("Introduce un número.... Repita el proceso");
 				sc.nextLine();
 				opcion = 0;
-
 			}
 
 		} while (opcion != 4);
-
 	}
 
 }

@@ -1,5 +1,6 @@
 package control;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -39,6 +40,10 @@ public class ServiciosMensaje {
 
 	public ArrayList<Mensaje> mostrarMensajesPorCodigoPlanta() {
 		return mensajeDAO.buscarMensajesPorCodigoPlanta();
+	}
+	
+	public ArrayList<Mensaje> mostrarMensajesPorFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+	    return mensajeDAO.buscarMensajesEntreFechas(fechaInicio, fechaFin);
 	}
 	
 	

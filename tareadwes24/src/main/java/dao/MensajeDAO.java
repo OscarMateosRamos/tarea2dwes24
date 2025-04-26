@@ -5,12 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
 
-import control.Controlador;
-import modelo.Ejemplar;
 import modelo.Mensaje;
 import utils.ConexBD;
 
@@ -79,64 +78,61 @@ public class MensajeDAO {
 	}
 
 	public ArrayList<Mensaje> buscarPorIdPersona(long identificador) {
-		String sql = "SELECT * FROM mensajes WHERE idPersona = ?";
-		ArrayList<Mensaje> mensajes = new ArrayList();
-		try {
-			PreparedStatement ps = conex.prepareStatement(sql);
-			ps.setLong(1, identificador);
-			ResultSet rs = ps.executeQuery();
+	    String sql = "SELECT * FROM mensajes WHERE idPersona = ?";
+	    ArrayList<Mensaje> mensajes = new ArrayList<>();
 
-			while (rs.next()) {
-				Mensaje m = new Mensaje();
-				m.setId(rs.getLong("id"));
-				m.setFechahora(rs.getTimestamp("fechahora").toLocalDateTime());
-				m.setMensaje(rs.getString("mensaje"));
-				m.setIdEjemplar(rs.getLong("idEjemplar"));
-				m.setIdPersona(rs.getLong("idPersona"));
+	    try (PreparedStatement ps = conex.prepareStatement(sql)) {
+	        ps.setLong(1, identificador);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                Mensaje m = new Mensaje();
+	                m.setId(rs.getLong("id"));
+	                m.setFechahora(rs.getTimestamp("fechahora").toLocalDateTime());
+	                m.setMensaje(rs.getString("mensaje"));
+	                m.setIdEjemplar(rs.getLong("idEjemplar"));
+	                m.setIdPersona(rs.getLong("idPersona"));
+	                mensajes.add(m);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Se ha producido una SQLException: " + e.getMessage());
+	        e.printStackTrace();
+	    } catch (Exception e) {
+	        System.out.println("Se ha producido una Exception: " + e.getMessage());
+	        e.printStackTrace();
+	    }
 
-				mensajes.add(m);
-			}
-		} catch (SQLException e) {
-			System.out.println("Se ha producido una SQLException: " + e.getMessage());
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.out.println("Se ha producido una Exception: " + e.getMessage());
-			e.printStackTrace();
-		}
-
-		return mensajes;
-
+	    return mensajes;
 	}
 
 	public ArrayList<Mensaje> buscarPorIdEjemplar(long identificador) {
-		String sql = "SELECT * FROM mensajes WHERE idEjemplar = ?";
-		ArrayList<Mensaje> mensajes = new ArrayList();
-		try {
-			PreparedStatement ps = conex.prepareStatement(sql);
-			ps.setLong(1, identificador);
-			ResultSet rs = ps.executeQuery();
+	    String sql = "SELECT * FROM mensajes WHERE idEjemplar = ?";
+	    ArrayList<Mensaje> mensajes = new ArrayList<>();
 
-			while (rs.next()) {
-				Mensaje m = new Mensaje();
-				m.setId(rs.getLong("id"));
-				m.setFechahora(rs.getTimestamp("fechahora").toLocalDateTime());
-				m.setMensaje(rs.getString("mensaje"));
-				m.setIdEjemplar(rs.getLong("idEjemplar"));
-				m.setIdPersona(rs.getLong("idPersona"));
+	    try (PreparedStatement ps = conex.prepareStatement(sql)) {
+	        ps.setLong(1, identificador);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                Mensaje m = new Mensaje();
+	                m.setId(rs.getLong("id"));
+	                m.setFechahora(rs.getTimestamp("fechahora").toLocalDateTime());
+	                m.setMensaje(rs.getString("mensaje"));
+	                m.setIdEjemplar(rs.getLong("idEjemplar"));
+	                m.setIdPersona(rs.getLong("idPersona"));
+	                mensajes.add(m);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Se ha producido una SQLException: " + e.getMessage());
+	        e.printStackTrace();
+	    } catch (Exception e) {
+	        System.out.println("Se ha producido una Exception: " + e.getMessage());
+	        e.printStackTrace();
+	    }
 
-				mensajes.add(m);
-			}
-		} catch (SQLException e) {
-			System.out.println("Se ha producido una SQLException: " + e.getMessage());
-			e.printStackTrace();
-		} catch (Exception e) {
-			System.out.println("Se ha producido una Exception: " + e.getMessage());
-			e.printStackTrace();
-		}
-
-		return mensajes;
-
+	    return mensajes;
 	}
+
 
 	public ArrayList<Mensaje> buscarMensajesPorCodigoPlanta() {
 		Scanner sc = new Scanner(System.in);
@@ -168,6 +164,38 @@ public class MensajeDAO {
 		return mensajes;
 
 	}
+	
+	
+	
+	public ArrayList<Mensaje> buscarMensajesEntreFechas(LocalDateTime fechaInicio, LocalDateTime fechaFin) {
+	    String sql = "SELECT * FROM mensajes WHERE fechahora BETWEEN ? AND ?";
+	    ArrayList<Mensaje> mensajes = new ArrayList<>();
+
+	    try (PreparedStatement ps = conex.prepareStatement(sql)) {
+	        ps.setTimestamp(1, Timestamp.valueOf(fechaInicio)); 
+	        ps.setTimestamp(2, Timestamp.valueOf(fechaFin)); 
+	        try (ResultSet rs = ps.executeQuery()) {
+	            while (rs.next()) {
+	                Mensaje m = new Mensaje();
+	                m.setId(rs.getLong("id"));
+	                m.setFechahora(rs.getTimestamp("fechahora").toLocalDateTime());
+	                m.setMensaje(rs.getString("mensaje"));
+	                m.setIdEjemplar(rs.getLong("idEjemplar"));
+	                m.setIdPersona(rs.getLong("idPersona"));
+	                mensajes.add(m);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        System.out.println("Se ha producido una SQLException: " + e.getMessage());
+	        e.printStackTrace();
+	    } catch (Exception e) {
+	        System.out.println("Se ha producido una Exception: " + e.getMessage());
+	        e.printStackTrace();
+	    }
+
+	    return mensajes;
+	}
+
 
 	public ArrayList<Mensaje> mostrarMensajeTipoPlanta(String codigo) {
 		String sql = "SELECT DISTINCT mensajes.id , fechahora , mensaje , mensajes.idEjemplar, mensajes.idPersona "
